@@ -1,5 +1,23 @@
 {
   "devDependencies": {
     "tailwindcss": "^3.2.7"
-  }
+  },
+  "name": "final_project_kelompok-8",
+  "description": "",
+  "version": "1.0.0",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "test": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MasAnton/Final_project_kelompok-8.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MasAnton/Final_project_kelompok-8/issues"
+  },
+  "homepage": "https://github.com/MasAnton/Final_project_kelompok-8#readme"
 }
