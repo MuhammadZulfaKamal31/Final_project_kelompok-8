@@ -7,16 +7,65 @@
     <link rel="stylesheet" href="dist/output.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Document</title>
+    <!-- ionicon -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <!-- ionicon kalo mau pake icon langsung dari web nya ambil dari webnya -->
   </head>
+
   <body>
     <!-- Navbar Start -->
+    <nav class="bg-transparent w-full absolute z-50">
+      <div class="p-1 md:flex md:items-center md:justify-between shadow-sm">
+        <div class="flex shadow-md">
+          <button>
+            <img class="h-16 inline mx-3 px-4" src="dist/img/fabira logo web (1).png" alt="" />
+          </button>
+          <ul class="md:flex md:items-center">
+            <li class="mx-3">
+              <a href="#" class="text-xl font-bold text-white hover:text-lg">HOME</a>
+            </li>
+            <li class="mx-3">
+              <a href="#" class="text-xl font-bold text-white hover:text-lg">MOVIES</a>
+            </li>
+            <li class="mx-3">
+              <a href="#" class="text-xl font-bold text-white hover:text-lg">TV SERIES</a>
+            </li>
+          </ul>
+        </div>
+        <div class="md:flex md:items-center relative md:justify-between">
+          <div>
+            <label for="default-search" class="mb-2 text-sm text-white sr-only">Search</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-white">
+                <!-- contoh ionicon -->
+                <ion-icon name="search-outline"></ion-icon>
+                <!-- ionicon -->
+              </div>
+              <input
+                type="search"
+                id="default-search"
+                class="block w-full p-3 pl-10 text-base text-white border border-white focus:border-spacing-1 focus:border-white rounded-3xl bg-transparent border-spacing-2"
+                placeholder="Search movie" />
+            </div>
+          </div>
+          <div class="md:flex md:items-center px-4 md:justify-between mr-2">
+            <button
+              type="button"
+              class="text-white bg-red-700 font-medium rounded-xl px-5 py-2.5 text-lg hover:opacity-80 transition-all ease-in-out duration-75">
+              SIGN IN
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
     <!-- Navbar End -->
     <!-- Backdrop Start -->
     <div class="w-full h-screen">
-      <div class="w-full h-full relative">
+      <div class="w-full h-full">
         <img src="dist/img/backdrop2.jpg" class="object-cover absolute w-full h-full object-top" />
-        <div class="w-full h-full bg-gradient-to-r from-black to-transparent absolute z-50 text-white">
-          <div class="w-full h-full bg-gradient-to-t from-black via-transparent to-transparent absolute z-50">
+        <div class="w-full h-full bg-gradient-to-r from-black to-transparent absolute text-white">
+          <div class="w-full h-full bg-gradient-to-t from-black via-transparent to-transparent absolute">
             <div class="w-full h-full flex pl-32">
               <div class="max-w-[600px] flex flex-col h-full gap-y-7 justify-center">
                 <div>
@@ -53,12 +102,8 @@
         </div>
       </div>
     </div>
+
       <!-- Backdrop End -->
-
-    
-
-    
-
      <!--Popular Movies start  -->
      <div class="p-16 justify-center">
    
@@ -162,7 +207,19 @@
     </div> 
        <!--Populary Series End  -->
       
-    
+</body>
+    <footer class="flex bg-[rgb(19,19,19)] w-full h-[100px] justify-between p-5 align-middle font-semibold">
+      <div class="flex items-center p-5">
+          <img src="/dist/img/fabira logo web (1).png" class="h-[80px] " alt="">
+      </div>
+      <div class="flex items-center gap-3 text-white p-5">
+          <a href="#" class=" hover:bg-red-900 p-2 rounded-lg">Home</a>
+          <a href="#" class="hover:bg-red-900 p-2 rounded-lg">Movies</a>
+          <a href="#" class="hover:bg-red-900 p-2 rounded-lg">TV Series</a>
+          <a href="#" class="hover:bg-red-900 p-2 rounded-lg">Search</a>
+          
+      </div>
 
-  </body>
+  </footer>
 </html>
+
