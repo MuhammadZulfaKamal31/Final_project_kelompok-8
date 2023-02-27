@@ -5,8 +5,8 @@ const Footerr = () => {
   return (
     <>
     
-    <div>
-    <footer class="flex bg-[rgb(19,19,19)] w-full h-[100px] justify-between p-5 align-middle font-semibold">
+   
+    <footer class="mt-20 flex bg-[rgb(19,19,19)] w-full h-[100px] justify-between p-5 align-middle font-semibold">
       <div class="flex items-center p-5">
           <img src={images.logo} className="h-[80px] " alt=""/>
       </div>
@@ -19,7 +19,7 @@ const Footerr = () => {
       </div>
 
   </footer>
-    </div>
+    
     </>
   )
 }
