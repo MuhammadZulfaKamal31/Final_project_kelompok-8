@@ -1,5 +1,5 @@
 import React from "react";
-import Backdrop from "../components/Backdrop/Backdrop";
+import Backdrop from "../components/Backdrop";
 import { useGetMovies } from "../hooks/movie-api/useGetMovies";
 
 const HomePage = () => {
