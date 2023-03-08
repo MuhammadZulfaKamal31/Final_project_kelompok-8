@@ -3,12 +3,35 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 
+import { QueryClientProvider, QueryClient } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools'
 
+import { BrowserRouter } from 'react-router-dom';
+
+import ScrollToTop from './helpers/ScrollToTop'
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnmount: false,
+      refetchOnReconnect: false,
+      retry: 2,
+      staleTime: 30 * 60 * 1000,
+    },
+  },
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <ScrollToTop />
+        <App />
+      </BrowserRouter>
+      <ReactQueryDevtools initialIsOpen={false} position='bottom-left' />
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

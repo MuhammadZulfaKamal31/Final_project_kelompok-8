@@ -1,20 +1,18 @@
-import { Navbar, Footerr, Backdrop, Popular, TopRated } from "./components";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import { Routes, Route } from "react-router-dom";
+import { useGetMovies } from "./hooks/movie-api/useGetMovies";
+import HomePage from "./pages/HomePage";
+import "swiper/css";
 
 function App() {
+
+
+
+
   return (
-    <div className="App bg-black">
-  
-      <Navbar/>
-   <Backdrop/>
-   <Popular/>
-   <TopRated/>
-   <Footerr/>
-      
-
-
-    </div>
+    <>
+      <HomePage />
+    </>
   );
 }
 
