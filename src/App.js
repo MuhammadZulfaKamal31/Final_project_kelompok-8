@@ -9,22 +9,23 @@ import Footer from "./components/Footer";
 
 import "swiper/css";
 
-import { DataProvider } from "./contextProvider/DataProvider";
+import { DataContext } from "./contextProvider/DataProvider";
+import { useContext } from "react";
 
 function App() {
-
+  const [theme, setTheme] = useContext(DataContext)
 
   return (
     <>
-      <DataProvider>
-        <Navbar />
+      <Navbar />
+      <div className={`w-full h-full ${theme ? ' bg-background_dark text-white' : ' bg-background_light text-black'}`}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/movie" element={<MoviePage />} />
           <Route path="/tv" element={<TvPage />} />
         </Routes>
         <Footer />
-      </DataProvider>
+      </div>
     </>
   );
 }

@@ -1,25 +1,26 @@
 import React from "react";
 import Backdrop from "../components/Backdrop";
+
 import { useGetMovies } from "../hooks/movie-api/useGetMovies";
 
 const HomePage = () => {
   const {
-    data: dataBackdrop,
-    isLoading: isLoadingBackDrop,
-    isError: isErrorBackDrop,
-    isFetching: isFetchingBackDrop,
-    error: errorBackDrop,
+    data: dataPopularMovie,
+    isLoading: isLoadingPopularMovie,
+    isError: isErrorPopularMovie,
+    isFetching: isFetchingPopularMovie,
+    error: errorPopularMovie,
   } = useGetMovies({ pageParam: 1, mediaCategory: "popular" });
 
   return (
-    <div className=" w-full h-full bg-black">
+    <div className=" w-full h-full">
       <div className=" w-full h-full">
         <Backdrop
-          data={dataBackdrop}
-          isLoading={isLoadingBackDrop}
-          isError={isErrorBackDrop}
-          error={errorBackDrop}
-          isFetching={isFetchingBackDrop}
+          data={dataPopularMovie}
+          isLoading={isLoadingPopularMovie}
+          isError={isErrorPopularMovie}
+          error={errorPopularMovie}
+          isFetching={isFetchingPopularMovie}
         />
       </div>
     </div>

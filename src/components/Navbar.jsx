@@ -27,14 +27,14 @@ const Navbar = () => {
               HOME
             </a>
             <a
-              href="/"
+              href="/movie"
               className={`${
                 theme ? " text-white" : "text-black"
               } text-xl font-medium hover:scale-90 transition hover:text-red-500`}>
               MOVIES
             </a>
             <a
-              href="/"
+              href="/tv"
               className={`${
                 theme ? " text-white" : "text-black"
               } text-xl font-medium hover:scale-90 transition hover:text-red-500`}>

@@ -8,6 +8,8 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 
 import { BrowserRouter } from 'react-router-dom';
 
+import { DataProvider } from "./contextProvider/DataProvider";
+
 import ScrollToTop from './helpers/ScrollToTop'
 
 const queryClient = new QueryClient({
@@ -22,13 +24,16 @@ const queryClient = new QueryClient({
   },
 });
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <ScrollToTop />
-        <App />
+        <DataProvider>
+          <App />
+        </DataProvider>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} position='bottom-left' />
     </QueryClientProvider>

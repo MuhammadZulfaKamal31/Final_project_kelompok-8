@@ -7,7 +7,7 @@ const { baseURL, apiKey } = tmdbConfigs
 
 const getTv = async ({ pageParam, mediaCategory }) => {
     // console.log("axios", { pageParam, mediaCategory })
-    const { data } = await axios.get(`${baseURL}/movie/${mediaCategory}${apiKey}&page=${pageParam}`)
+    const { data } = await axios.get(`${baseURL}/tv/${mediaCategory}${apiKey}&page=${pageParam}`)
 
     return data
 }
@@ -16,7 +16,7 @@ export const useGetTv = ({ pageParam, mediaCategory }) => {
     // console.log("useQ", { pageParam, mediaCategory })
 
     return (
-        useQuery(['movie', mediaCategory, pageParam], () => getTv({ pageParam, mediaCategory }), {
+        useQuery(['tv', mediaCategory, pageParam], () => getTv({ pageParam, mediaCategory }), {
             enabled: !!mediaCategory && !!pageParam
         })
     )
