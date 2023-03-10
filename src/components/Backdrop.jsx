@@ -1,20 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FaPlay } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, History } from "swiper";
 
-import { useGetGenreName } from "../hooks/genre-name-api/useGetGenreName";
 import { filterGenreName } from "../utils/filterGenreName";
-
 import { truncateString } from "../utils/truncateString";
 
 import { DataContext } from "../contextProvider/DataProvider";
 
-const Backdrop = ({ data, isLoading, isError, isFetching, error }) => {
+const Backdrop = ({ genre, data, isLoading, isError, isFetching, error }) => {
   const [theme, setTheme] = useContext(DataContext);
 
-  const { data: allGenresName } = useGetGenreName();
+  console.log("back", genre);
 
   if (isLoading || isFetching) {
     return <h2>Loading...</h2>;
@@ -38,7 +36,7 @@ const Backdrop = ({ data, isLoading, isError, isFetching, error }) => {
         className=" w-full h-screen absolute">
         {data?.results &&
           data?.results.map((el) => {
-            const genresName = filterGenreName(allGenresName?.genres, el.genre_ids);
+            const getGenres = filterGenreName(genre?.genres, el.genre_ids);
             return (
               <SwiperSlide className=" w-full h-screen" key={el.id}>
                 <div
@@ -56,16 +54,22 @@ const Backdrop = ({ data, isLoading, isError, isFetching, error }) => {
                       className={`" text-[65px] leading-[75px] font-bold ${
                         theme ? "text-white" : "text-black"
                       } drop-shadow-lg"`}>
-                      {el.title}
+                      {el.original_title || el.original_name}
                     </h1>
                     <div className=" text-white flex items-center gap-x-4">
-                      {genresName.map((el) => {
-                        return (
-                          <span className=" h-9 flex justify-center items-center px-4 rounded-full bg-red-600">
-                            {el.name}
-                          </span>
-                        );
-                      })}
+                      {!getGenres.length ? (
+                        <span className=" h-9 flex justify-center items-center px-4 rounded-full bg-red-600">
+                          Action
+                        </span>
+                      ) : (
+                        getGenres.map((el) => {
+                          return (
+                            <span className=" h-9 flex justify-center items-center px-4 rounded-full bg-red-600">
+                              {el.name}
+                            </span>
+                          );
+                        })
+                      )}
                     </div>
                     <p className={` ${theme ? "text-white" : "text-black"} drop-shadow-md`}>
                       {truncateString(el.overview, 230)}

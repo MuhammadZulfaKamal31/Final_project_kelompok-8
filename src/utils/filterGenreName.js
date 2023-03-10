@@ -5,5 +5,6 @@ export const filterGenreName = (genreList, id) => {
             return id.includes(genre.id)
         }))
     }
+
     return genres
 }

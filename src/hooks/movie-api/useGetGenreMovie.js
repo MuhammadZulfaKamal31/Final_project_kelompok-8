@@ -10,6 +10,6 @@ const getGenresMovie = async () => {
 }
 
 
-export const useGetGenreName = () => {
-    return useQuery(['genres'], getGenresMovie,)
+export const useGetGenreMovie = () => {
+    return useQuery(['genre-movie'], getGenresMovie,)
 }
