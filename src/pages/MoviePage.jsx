@@ -5,6 +5,7 @@ import { useGetGenreMovie } from "../hooks/movie-api/useGetGenreMovie";
 import { AiOutlineLoading } from "react-icons/ai";
 
 const MoviePage = () => {
+  const mediaType = "movie";
   const [category, setCategory] = useState("popular");
 
   const { data, isError, error, isFetching, isLoading, refetch } = useGetMovies({
@@ -17,6 +18,7 @@ const MoviePage = () => {
   return (
     <div className=" w-full h-full">
       <Backdrop
+        mediaType={mediaType}
         data={data}
         isError={isError}
         isFetching={isFetching}

@@ -13,10 +13,6 @@ import { Link } from "react-router-dom";
 const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaType }) => {
   const [theme, setTheme] = useContext(DataContext);
 
-  console.log({ mediaType });
-
-  console.log("back", genre);
-
   if (isLoading || isFetching) {
     return <h2>Loading...</h2>;
   }

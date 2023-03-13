@@ -5,7 +5,7 @@ import { useGetTv } from "../hooks/tv-api/useGetTv";
 import { useGetGenreTv } from "../hooks/tv-api/useGetGenreTv";
 
 const TvPage = () => {
-  const [mediaType, setMediaType] = useState("tv");
+  const mediaType = "tv";
   const [category, setCategory] = useState("popular");
   const { data, isError, error, isLoading, isFetching } = useGetTv({
     mediType: mediaType,
