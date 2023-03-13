@@ -54,7 +54,7 @@ const Backdrop = ({ genre, data, isLoading, isError, isFetching, error }) => {
                       className={`" text-[65px] leading-[75px] font-bold ${
                         theme ? "text-white" : "text-black"
                       } drop-shadow-lg"`}>
-                      {el.original_title || el.original_name}
+                      {el.title || el.name}
                     </h1>
                     <div className=" text-white flex items-center gap-x-4">
                       {!getGenres.length ? (
