@@ -8,9 +8,12 @@ import { filterGenreName } from "../utils/filterGenreName";
 import { truncateString } from "../utils/truncateString";
 
 import { DataContext } from "../contextProvider/DataProvider";
+import { Link } from "react-router-dom";
 
-const Backdrop = ({ genre, data, isLoading, isError, isFetching, error }) => {
+const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaType }) => {
   const [theme, setTheme] = useContext(DataContext);
+
+  console.log({ mediaType });
 
   console.log("back", genre);
 
@@ -74,10 +77,12 @@ const Backdrop = ({ genre, data, isLoading, isError, isFetching, error }) => {
                     <p className={` ${theme ? "text-white" : "text-black"} drop-shadow-md`}>
                       {truncateString(el.overview, 230)}
                     </p>
-                    <button className=" w-40 h-[45px] bg-primary_button hover:bg-secondary_button transition-all ease-in-out duration-200 shadow-xl rounded-lg flex justify-center items-center gap-x-3 text-white">
-                      <FaPlay />
-                      <span>Watch Now</span>
-                    </button>
+                    <Link to={`/${mediaType}/${el.id}`}>
+                      <button className=" w-40 h-[45px] bg-primary_button hover:bg-secondary_button transition-all ease-in-out duration-200 shadow-xl rounded-lg flex justify-center items-center gap-x-3 text-white">
+                        <FaPlay />
+                        <span>Watch Now</span>
+                      </button>
+                    </Link>
                   </div>
                 </div>
                 <img
