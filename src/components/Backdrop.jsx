@@ -22,7 +22,7 @@ const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaTyp
   }
 
   return (
-    <div className=" w-full h-screen relative">
+    <div className=" w-full md:h-screen h-[70vh] relative">
       <Swiper
         loop={true}
         centeredSlides={true}
@@ -32,51 +32,57 @@ const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaTyp
         }}
         navigation={false}
         modules={[Autoplay, History]}
-        className=" w-full h-screen absolute">
+        className=" w-full md:h-screen h-full absolute">
         {data?.results &&
-          data?.results.map((el) => {
+          data?.results.map((el, i) => {
             const getGenres = filterGenreName(genre?.genres, el.genre_ids);
             return (
-              <SwiperSlide className=" w-full h-screen" key={el.id}>
+              <SwiperSlide className=" w-full md:h-screen" key={i}>
                 <div
                   className={`
-                     w-full h-screen absolute z-50 bg-gradient-to-t ${
-                       theme ? "from-black" : "from-white"
-                     } via-transparent to-transparent
+                      w-full md:h-screen h-full absolute z-50 bg-gradient-to-t ${
+                        theme ? "from-black" : "from-white"
+                      } via-transparent to-transparent
                   `}></div>
                 <div
-                  className={` w-full h-screen absolute z-50 bg-gradient-to-r ${
+                  className={` w-full md:h-screen h-full absolute z-50 bg-gradient-to-r ${
                     theme ? "from-black" : "from-white "
-                  }  to-transparent pl-52`}>
-                  <div className=" h-full  max-w-[600px] flex flex-col justify-center gap-y-10">
+                  }  to-transparent lg:pl-52 md:pl-16 md:pr-0 px-5`}>
+                  <div className=" h-full  max-w-[600px] flex flex-col justify-center md:gap-y-10 gap-y-6">
                     <h1
-                      className={`" text-[65px] leading-[75px] font-bold ${
+                      className={`" lg:text-[65px] md:text-[50px] text-[30px] lg:leading-[75px] font-bold ${
                         theme ? "text-white" : "text-black"
                       } drop-shadow-lg"`}>
                       {el.title || el.name}
                     </h1>
                     <div className=" text-white flex items-center gap-x-4">
-                      {!getGenres.length ? (
-                        <span className=" h-9 flex justify-center items-center px-4 rounded-full bg-red-600">
+                      {!getGenres?.length ? (
+                        <span className=" md:h-9 h-7 flex justify-center items-center md:px-4 px-2 rounded-full bg-primary_button md:text-base text-sm font-semibold">
                           Action
                         </span>
                       ) : (
-                        getGenres.map((el) => {
+                        getGenres?.slice(0, 2).map((el, i) => {
                           return (
-                            <span className=" h-9 flex justify-center items-center px-4 rounded-full bg-red-600">
+                            <span
+                              className=" md:h-9 h-7 flex justify-center items-center md:px-4 px-2 rounded-full bg-primary_button md:text-base text-sm font-semibold"
+                              key={i}>
                               {el.name}
                             </span>
                           );
                         })
                       )}
                     </div>
-                    <p className={` ${theme ? "text-white" : "text-black"} drop-shadow-md`}>
+                    <p
+                      className={` ${theme ? "text-white" : "text-black"} drop-shadow-md md:text-base hidden md:block`}>
                       {truncateString(el.overview, 230)}
                     </p>
+                    <p className={` ${theme ? "text-white" : "text-black"} drop-shadow-md md:hidden text-[15px]`}>
+                      {truncateString(el.overview, 120)}
+                    </p>
                     <Link to={`/${mediaType}/${el.id}`}>
-                      <button className=" w-40 h-[45px] bg-primary_button hover:bg-secondary_button transition-all ease-in-out duration-200 shadow-xl rounded-lg flex justify-center items-center gap-x-3 text-white">
+                      <button className=" md:w-40 w-[147px] md:h-[45px] h-[37px] bg-primary_button shadow-xl md:rounded-lg rounded flex justify-center items-center gap-x-3">
                         <FaPlay />
-                        <span>Watch Now</span>
+                        Watch Now
                       </button>
                     </Link>
                   </div>
@@ -84,7 +90,7 @@ const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaTyp
                 <img
                   src={`https://image.tmdb.org/t/p/original${el.backdrop_path}`}
                   alt={el.title}
-                  className="  w-full"
+                  className="  w-full h-full object-cover"
                 />
               </SwiperSlide>
             );
