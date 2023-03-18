@@ -53,7 +53,7 @@ const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaTyp
                       className={`" lg:text-[65px] md:text-[50px] text-[30px] lg:leading-[75px] font-bold ${
                         theme ? "text-white" : "text-black"
                       } drop-shadow-lg"`}>
-                      {el.title || el.name}
+                      {truncateString(el.title, 28) || truncateString(el.name, 28)}
                     </h1>
                     <div className=" text-white flex items-center gap-x-4">
                       {!getGenres?.length ? (
@@ -80,7 +80,7 @@ const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaTyp
                       {truncateString(el.overview, 120)}
                     </p>
                     <Link to={`/${mediaType}/${el.id}`}>
-                      <button className=" md:w-40 w-[147px] md:h-[45px] h-[37px] bg-primary_button shadow-xl md:rounded-lg rounded flex justify-center items-center gap-x-3">
+                      <button className=" md:w-40 w-[147px] md:h-[45px] h-[37px] bg-primary_button shadow-xl md:rounded-lg rounded flex justify-center items-center gap-x-3 hover:bg-secondary_button transition-all ease-in-out duration-200">
                         <FaPlay />
                         Watch Now
                       </button>
