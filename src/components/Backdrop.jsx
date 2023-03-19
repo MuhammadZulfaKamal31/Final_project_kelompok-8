@@ -9,12 +9,13 @@ import { truncateString } from "../utils/truncateString";
 
 import { DataContext } from "../contextProvider/DataProvider";
 import { Link } from "react-router-dom";
+import LoadingPage from "../pages/LoadingPage";
 
 const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaType }) => {
   const [theme, setTheme] = useContext(DataContext);
 
   if (isLoading || isFetching) {
-    return <h2>Loading...</h2>;
+    return <LoadingPage />;
   }
 
   if (isError) {
@@ -48,12 +49,12 @@ const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaTyp
                   className={` w-full md:h-screen h-full absolute z-50 bg-gradient-to-r ${
                     theme ? "from-black" : "from-white "
                   }  to-transparent lg:pl-52 md:pl-16 md:pr-0 px-5`}>
-                  <div className=" h-full  max-w-[600px] flex flex-col justify-center md:gap-y-10 gap-y-6">
+                  <div className=" h-full  max-w-[600px] lg:pt-10 flex flex-col justify-center md:gap-y-10 gap-y-6">
                     <h1
-                      className={`" lg:text-[65px] md:text-[50px] text-[30px] lg:leading-[75px] font-bold ${
+                      className={`" lg:text-[62px] md:text-[49px] text-[30px] lg:leading-[75px] font-bold ${
                         theme ? "text-white" : "text-black"
                       } drop-shadow-lg"`}>
-                      {truncateString(el.title, 28) || truncateString(el.name, 28)}
+                      {truncateString(el.title, 32) || truncateString(el.name, 32)}
                     </h1>
                     <div className=" text-white flex items-center gap-x-4">
                       {!getGenres?.length ? (

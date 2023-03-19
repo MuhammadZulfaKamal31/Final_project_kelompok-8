@@ -7,7 +7,7 @@ import detailHeaderPlaceholder from "../../assets/detail-header-placeholder.png"
 import placeholderPoster from "../../assets/placeholder-img.png";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
-export const DetailHeader = ({ detail, detailCredits, loadingDetailCredits }) => {
+export const DetailHeader = ({ detail, detailCredits, loadingDetailCredits, scrollFunction }) => {
   return (
     <div className=" w-full h-screen">
       <div className="w-full h-screen relative">
@@ -50,7 +50,9 @@ export const DetailHeader = ({ detail, detailCredits, loadingDetailCredits }) =>
             </div>
             <p className=" drop-shadow-lg">{detail?.overview}</p>
             <div>
-              <button className=" lg:w-40 w-[147px] lg:h-[45px] h-[37px] bg-primary_button shadow-xl lg:rounded-lg rounded flex justify-center items-center gap-x-3 hover:bg-secondary_button">
+              <button
+                className=" lg:w-40 w-[147px] lg:h-[45px] h-[37px] bg-primary_button shadow-xl lg:rounded-lg rounded flex justify-center items-center gap-x-3 hover:bg-secondary_button"
+                onClick={scrollFunction}>
                 <FaPlay />
                 Watch Now
               </button>
@@ -116,19 +118,15 @@ export const DetailHeader = ({ detail, detailCredits, loadingDetailCredits }) =>
         </div>
         <div className=" absolute w-full h-screen">
           {detail?.backdrop_path === null ? (
-            <LazyLoadImage
+            <img
               src={detailHeaderPlaceholder}
               alt={detail?.title}
-              placeholderSrc={detailHeaderPlaceholder}
-              effect="blur"
               className=" w-full h-screen object-top object-cover"
             />
           ) : (
-            <LazyLoadImage
+            <img
               src={`https://image.tmdb.org/t/p/original${detail?.backdrop_path}`}
               alt={detail?.title}
-              placeholderSrc={detailHeaderPlaceholder}
-              effect="blur"
               className=" w-full h-screen object-top object-cover"
             />
           )}

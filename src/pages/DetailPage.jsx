@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useGetDetail } from "../hooks/detail-api/useGetDetail";
 import { useParams } from "react-router";
 import { useGetDetailCategory } from "../hooks/detail-api/useGetDetailCategory";
@@ -19,10 +19,17 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import placeholderPoster from "../assets/placeholder-img.png";
 import placeholderBackdrop from "../assets/placeholder-backdrop.png";
 import { Link } from "react-router-dom";
+import LoadingPage from "./LoadingPage";
 
 const DetailPage = () => {
   const { mediaType, mediaId } = useParams();
   const [isPlaying, setIsPlaying] = useState(null);
+  const myRef = useRef(null);
+
+  const executeScroll = () => {
+    window.scrollTo({ behavior: "smooth", top: myRef.current.offsetTop });
+  };
+
   const detailCategories = {
     credits: "credits",
     similar: "similar",
@@ -70,14 +77,36 @@ const DetailPage = () => {
     isFetching: isFetchingDetailSimilar,
   } = useGetDetailCategory({ mediaId: mediaId, mediaType: mediaType, detailCategory: detailCategories.similar });
 
+  if (
+    loadingDetail ||
+    isFetchingDetail ||
+    loadingDetailCredits ||
+    isFetchingDetailCredits ||
+    loadingDetailBackdrops ||
+    isFetchingDetailBackdrops ||
+    loadingDetailPosters ||
+    isFetchingDetailPosters ||
+    loadingDetailSimilar ||
+    isFetchingDetailSimilar
+  ) {
+    return <LoadingPage />;
+  }
+
   return (
     <div className=" w-full h-full text-white">
       <div className="w-full h-full">
-        <DetailHeader detail={detail} loadingDetailCredits={loadingDetailCredits} detailCredits={detailCredits} />
+        <DetailHeader
+          detail={detail}
+          loadingDetailCredits={loadingDetailCredits}
+          detailCredits={detailCredits}
+          scrollFunction={executeScroll}
+        />
         <div className=" w-full h-full lg:px-32 md:px-20 px-7 lg:pt-[300px] pt-[500px]">
           <div className=" w-full h-full  mt-20 flex flex-col lg:gap-y-32 gap-y-24">
             <div className=" w-full h-auto">
-              <h1 className=" md:text-3xl text-2xl font-bold mb-10">TRAILER</h1>
+              <h1 className=" md:text-3xl text-2xl font-bold mb-10" ref={myRef}>
+                TRAILER
+              </h1>
               {/* <Swiper
                 slidesPerView={"auto"}
                 navigation={true}
@@ -170,7 +199,8 @@ const DetailPage = () => {
                   768: {
                     slidesPerView: 5,
                   },
-                }}>
+                }}
+                className=" h-full">
                 <div>
                   {detailSimilar?.results &&
                     detailSimilar?.results.map((el) => {
@@ -191,6 +221,8 @@ const DetailPage = () => {
                                 alt={el.title}
                                 placeholderSrc={placeholderPoster}
                                 effect="blur"
+                                className=" h-full object-cover
+                                "
                               />
                             )}
                           </Link>
