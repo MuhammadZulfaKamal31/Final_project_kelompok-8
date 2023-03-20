@@ -3,7 +3,7 @@ import FadeLoader from "react-spinners/FadeLoader";
 import { DataContext } from "../contextProvider/DataProvider";
 
 const LoadingPage = ({ loading }) => {
-  const [theme, setTheme] = useContext(DataContext);
+  const [theme] = useContext(DataContext);
   return (
     <>
       <div className={` w-full h-screen  justify-center items-center ${!theme ? "hidden" : "flex"} `}>

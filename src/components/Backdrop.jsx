@@ -15,7 +15,7 @@ const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaTyp
   const [theme, setTheme] = useContext(DataContext);
 
   if (isLoading || isFetching) {
-    return <LoadingPage />;
+    return <LoadingPage loading={isLoading} />;
   }
 
   if (isError) {
@@ -81,7 +81,7 @@ const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaTyp
                       {truncateString(el.overview, 120)}
                     </p>
                     <Link to={`/${mediaType}/${el.id}`}>
-                      <button className=" md:w-40 w-[147px] md:h-[45px] h-[37px] bg-primary_button shadow-xl md:rounded-lg rounded flex justify-center items-center gap-x-3 hover:bg-secondary_button transition-all ease-in-out duration-200">
+                      <button className=" text-white md:w-40 w-[147px] md:h-[45px] h-[37px] bg-primary_button shadow-xl md:rounded-lg rounded flex justify-center items-center gap-x-3 hover:bg-secondary_button transition-all ease-in-out duration-200">
                         <FaPlay />
                         Watch Now
                       </button>

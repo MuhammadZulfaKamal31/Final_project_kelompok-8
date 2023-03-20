@@ -7,7 +7,12 @@ import detailHeaderPlaceholder from "../../assets/detail-header-placeholder.png"
 import placeholderPoster from "../../assets/placeholder-img.png";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
+import { DataContext } from "../../contextProvider/DataProvider";
+import { useContext } from "react";
+
 export const DetailHeader = ({ detail, detailCredits, loadingDetailCredits, scrollFunction }) => {
+  const [theme] = useContext(DataContext);
+
   return (
     <div className=" w-full h-screen">
       <div className="w-full h-screen relative">
@@ -51,7 +56,7 @@ export const DetailHeader = ({ detail, detailCredits, loadingDetailCredits, scro
             <p className=" drop-shadow-lg">{detail?.overview}</p>
             <div>
               <button
-                className=" lg:w-40 w-[147px] lg:h-[45px] h-[37px] bg-primary_button shadow-xl lg:rounded-lg rounded flex justify-center items-center gap-x-3 hover:bg-secondary_button"
+                className=" text-white lg:w-40 w-[147px] lg:h-[45px] h-[37px] bg-primary_button shadow-xl lg:rounded-lg rounded flex justify-center items-center gap-x-3 hover:bg-secondary_button"
                 onClick={scrollFunction}>
                 <FaPlay />
                 Watch Now
@@ -85,7 +90,7 @@ export const DetailHeader = ({ detail, detailCredits, loadingDetailCredits, scro
                               <div className=" absolute z-10 w-full h-full">
                                 <div className=" w-full h-[80%] bg-transparent"></div>
                                 <div className=" w-full h-[20%] bg-black/60 flex justify-center items-center">
-                                  <h1 className=" font-semibold">{cast?.name}</h1>
+                                  <h1 className=" font-semibold text-white">{cast?.name}</h1>
                                 </div>
                               </div>
                               {cast?.profile_path === null ? (
@@ -110,11 +115,17 @@ export const DetailHeader = ({ detail, detailCredits, loadingDetailCredits, scro
           </div>
         </div>
         <div className=" absolute z-10 w-full h-screen flex flex-col">
-          <div className="bg-[#0000004d] w-full h-1/3 hidden lg:block"></div>
-          <div className=" bg-gradient-to-t from-black to-[#0000004d]  w-full h-1/3 lg:hidden block"></div>
-          <div className=" bg-black  w-full h-1/3 lg:hidden block"></div>
-          <div className=" bg-gradient-to-t from-black to-[#0000004d]  w-full h-1/3 hidden lg:block"></div>
-          <div className=" bg-black  w-full h-1/3"></div>
+          <div className={` ${theme ? "bg-[#0000004d]" : "bg-[#f5f5f580]"} w-full h-1/3 hidden lg:block`}></div>
+          <div
+            className={` bg-gradient-to-t ${theme ? "from-black" : "from-background_light"} ${
+              theme ? "to-[#0000004d]" : "to-[#f5f5f580]"
+            } w-full h-1/3 lg:hidden block`}></div>
+          <div className={` ${theme ? "bg-black" : " bg-background_light"} w-full h-1/3 lg:hidden block`}></div>
+          <div
+            className={` bg-gradient-to-t ${theme ? "from-black" : "from-background_light"} ${
+              theme ? "to-[#0000004d]" : "to-[#f5f5f580]"
+            } w-full h-1/3 hidden lg:block`}></div>
+          <div className={`${theme ? "bg-black" : " bg-background_light"}  w-full h-1/3`}></div>
         </div>
         <div className=" absolute w-full h-screen">
           {detail?.backdrop_path === null ? (

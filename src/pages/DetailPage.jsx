@@ -1,11 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useGetDetail } from "../hooks/detail-api/useGetDetail";
 import { useParams } from "react-router";
 import { useGetDetailCategory } from "../hooks/detail-api/useGetDetailCategory";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useGetDetailVideos } from "../hooks/detail-api/useGetDetailVideos";
-import ReactPlayer from "react-player/lazy";
+import ReactPlayer from "react-player/youtube";
+
 import { Navigation, Pagination } from "swiper";
 
 import "swiper/css/pagination";
@@ -20,8 +21,11 @@ import placeholderPoster from "../assets/placeholder-img.png";
 import placeholderBackdrop from "../assets/placeholder-backdrop.png";
 import { Link } from "react-router-dom";
 import LoadingPage from "./LoadingPage";
+import { FaPlay } from "react-icons/fa";
+import { DataContext } from "../contextProvider/DataProvider";
 
 const DetailPage = () => {
+  const [theme] = useContext(DataContext);
   const { mediaType, mediaId } = useParams();
   const [isPlaying, setIsPlaying] = useState(null);
   const myRef = useRef(null);
@@ -93,44 +97,169 @@ const DetailPage = () => {
   }
 
   return (
-    <div className=" w-full h-full text-white">
-      <div className="w-full h-full">
-        <DetailHeader
+    <div className=" w-full h-full">
+      <div className=" absolute w-full h-screen">
+        <div className=" absolute  w-full h-screen">
+          <div className={` ${theme ? "bg-[#0000004d]" : "bg-[#f5f5f580]"} w-full h-1/3 hidden lg:block`}></div>
+          <div
+            className={` bg-gradient-to-t ${theme ? "from-black" : "from-background_light"} ${
+              theme ? "to-[#0000004d]" : "to-[#f5f5f580]"
+            } w-full h-1/3 lg:hidden block`}></div>
+          <div className={` ${theme ? "bg-black" : " bg-background_light"} w-full h-1/3 lg:hidden block`}></div>
+          <div
+            className={` bg-gradient-to-t ${theme ? "from-black" : "from-background_light"} ${
+              theme ? "to-[#0000004d]" : "to-[#f5f5f580]"
+            } w-full h-1/3 hidden lg:block`}></div>
+          <div className={`${theme ? "bg-black" : " bg-background_light"}  w-full h-1/3`}></div>
+        </div>
+        {detail?.backdrop_path === null ? (
+          <img src={placeholderBackdrop} alt={detail?.title} className=" w-full h-screen object-top object-cover" />
+        ) : (
+          <img
+            src={`https://image.tmdb.org/t/p/original${detail?.backdrop_path}`}
+            alt={detail?.title}
+            className=" w-full h-screen object-top object-cover"
+          />
+        )}
+      </div>
+      <div className="w-full h-full flex-col flex">
+        {/* <DetailHeader
           detail={detail}
           loadingDetailCredits={loadingDetailCredits}
           detailCredits={detailCredits}
           scrollFunction={executeScroll}
-        />
-        <div className=" w-full h-full lg:px-32 md:px-20 px-7 lg:pt-[300px] pt-[500px]">
+        /> */}
+        <div className="w-full h-full flex gap-x-7  z-40 lg:pt-56 lg:px-[90px] lg:flex-row flex-col pt-20 md:pt-40 md:px-[40px] px-[10px]">
+          <div className=" lg:w-[39%]  flex items-center justify-center w-full ">
+            <div className=" md:w-[50%] lg:w-full w-[70%]">
+              {detail?.poster_path === null ? (
+                <LazyLoadImage
+                  src={placeholderPoster}
+                  alt={detail?.title}
+                  className=" w-full object-cover"
+                  effect="blur"
+                  placeholderSrc={placeholderPoster}
+                />
+              ) : (
+                <LazyLoadImage
+                  src={`https://image.tmdb.org/t/p/w500${detail?.poster_path}`}
+                  alt={detail?.title}
+                  className=" w-full object-cover"
+                  effect="blur"
+                  placeholderSrc={placeholderPoster}
+                />
+              )}
+            </div>
+          </div>
+          <div className=" lg:w-[58%] w-full flex flex-col lg:gap-y-12 gap-y-10 lg:px-0 px-4 lg:pt-0 pt-5 ">
+            <h1 className=" lg:text-[60px] font-bold lg:leading-[75px] drop-shadow-xl text-4xl">
+              {detail?.name || detail?.title}
+            </h1>
+            <div div className=" text-white flex items-center gap-x-4">
+              {detail?.genres?.slice(0, 2).map((el, i) => {
+                return (
+                  <span
+                    className=" lg:h-9 h-7 flex justify-center items-center lg:px-4 px-2 rounded-full bg-primary_button lg:text-base text-sm font-semibold"
+                    key={i}>
+                    {el.name}
+                  </span>
+                );
+              })}
+            </div>
+            <p className=" drop-shadow-lg">{detail?.overview}</p>
+            <div>
+              <button
+                className=" text-white lg:w-40 w-[147px] lg:h-[45px] h-[37px] bg-primary_button shadow-xl lg:rounded-lg rounded flex justify-center items-center gap-x-3 hover:bg-secondary_button"
+                // onClick={scrollFunction}
+              >
+                <FaPlay />
+                Watch Now
+              </button>
+            </div>
+            {loadingDetailCredits ? (
+              "Loading.."
+            ) : (
+              <div>
+                <h1 className="md:text-[26px] text-2xl font-bold mb-5 uppercase">cast</h1>
+                <div>
+                  <Swiper
+                    spaceBetween={10}
+                    pagination={{
+                      clickable: true,
+                    }}
+                    breakpoints={{
+                      0: {
+                        slidesPerView: 2,
+                      },
+                      445: {
+                        slidesPerView: 3,
+                      },
+                      600: {
+                        slidesPerView: 4,
+                      },
+                      768: {
+                        slidesPerView: 5,
+                      },
+                    }}
+                    className=" h-[210px] cursor-grab">
+                    <div>
+                      {detailCredits?.cast &&
+                        detailCredits?.cast?.map((cast, i) => {
+                          return (
+                            <SwiperSlide className=" w-full h-full relative">
+                              <div className=" absolute z-10 w-full h-full">
+                                <div className=" w-full h-[80%] bg-transparent"></div>
+                                <div className=" w-full h-[20%] bg-black/60 flex justify-center items-center">
+                                  <h1 className=" font-semibold text-white">{cast?.name}</h1>
+                                </div>
+                              </div>
+                              {cast?.profile_path === null ? (
+                                <img src={placeholderPoster} alt={cast.name} key={i} />
+                              ) : (
+                                <LazyLoadImage
+                                  src={`https://image.tmdb.org/t/p/original${cast?.profile_path}`}
+                                  alt={cast.name}
+                                  key={i}
+                                  // effect="blur"
+                                  // placeholderSrc={placeholderPoster}
+                                />
+                              )}
+                            </SwiperSlide>
+                          );
+                        })}
+                    </div>
+                  </Swiper>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        <div className=" w-full h-full md:px-[40px] lg:px-[90px] px-[20px]">
           <div className=" w-full h-full  mt-20 flex flex-col lg:gap-y-32 gap-y-24">
             <div className=" w-full h-auto">
               <h1 className=" md:text-3xl text-2xl font-bold mb-10" ref={myRef}>
                 TRAILER
               </h1>
-              {/* <Swiper
+              <Swiper
                 slidesPerView={"auto"}
                 navigation={true}
                 modules={[Navigation, Pagination]}
                 className=" text-white w-full">
                 {detailVideos?.results &&
-                  detailVideos?.results?.map((el) => {
+                  detailVideos?.results?.slice(0, 3).map((el) => {
                     return (
-                      <SwiperSlide className=" w-full" key={el.id}>
-                        <div className="aspect-video">
-                          <ReactPlayer
-                            url={`https://www.youtube.com/watch?v=${el.key}`}
+                      <SwiperSlide className=" w-full" key={el?.id}>
+                        <div className=" aspect-video">
+                          <iframe
+                            src={`https://www.youtube.com/embed/${el?.key}?showinfo=0&enablejsapi=1&origin=http://localhost:3000`}
+                            title={el?.id}
                             width="100%"
-                            height="100%"
-                            onPlay={() => {
-                              setIsPlaying(el.id);
-                            }}
-                            playing={isPlaying === el.id}
-                          />
+                            height="100%"></iframe>
                         </div>
                       </SwiperSlide>
                     );
                   })}
-              </Swiper> */}
+              </Swiper>
             </div>
             <div className=" w-full">
               <h1 className=" md:text-[26px] text-2xl font-bold mb-5">BACKDROPS</h1>
@@ -154,6 +283,7 @@ const DetailPage = () => {
             </div>
             <div className=" w-full h-full">
               <h1 className="md:text-[26px] text-2xl font-bold mb-5">POSTERS</h1>
+
               <Swiper
                 pagination={{
                   clickable: true,
@@ -167,22 +297,20 @@ const DetailPage = () => {
                   },
                 }}
                 className="h-full cursor-grab">
-                <div>
-                  {detailPosters?.posters &&
-                    detailPosters?.posters.map((el, i) => {
-                      return (
-                        <SwiperSlide className=" h-full object-cover">
-                          <LazyLoadImage
-                            effect="blur"
-                            src={`https://image.tmdb.org/t/p/w500${el.file_path}`}
-                            alt="posters"
-                            key={i}
-                            placeholderSrc={placeholderPoster}
-                          />
-                        </SwiperSlide>
-                      );
-                    })}
-                </div>
+                {detailPosters?.posters &&
+                  detailPosters?.posters.map((el, i) => {
+                    return (
+                      <SwiperSlide className=" h-full" key={i}>
+                        <LazyLoadImage
+                          effect="blur"
+                          src={`https://image.tmdb.org/t/p/w500${el.file_path}`}
+                          alt="posters"
+                          placeholderSrc={placeholderPoster}
+                          className=""
+                        />
+                      </SwiperSlide>
+                    );
+                  })}
               </Swiper>
             </div>
             <div className=" w-full h-full">
