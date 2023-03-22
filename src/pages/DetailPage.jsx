@@ -170,8 +170,7 @@ const DetailPage = () => {
             <div>
               <button
                 className=" text-white lg:w-40 w-[147px] lg:h-[45px] h-[37px] bg-primary_button shadow-xl lg:rounded-lg rounded flex justify-center items-center gap-x-3 hover:bg-secondary_button"
-                // onClick={scrollFunction}
-              >
+                onClick={executeScroll}>
                 <FaPlay />
                 Watch Now
               </button>
@@ -220,8 +219,8 @@ const DetailPage = () => {
                                   src={`https://image.tmdb.org/t/p/original${cast?.profile_path}`}
                                   alt={cast.name}
                                   key={i}
-                                  // effect="blur"
-                                  // placeholderSrc={placeholderPoster}
+                                  effect="blur"
+                                  placeholderSrc={placeholderPoster}
                                 />
                               )}
                             </SwiperSlide>
@@ -250,11 +249,20 @@ const DetailPage = () => {
                     return (
                       <SwiperSlide className=" w-full" key={el?.id}>
                         <div className=" aspect-video">
-                          <iframe
+                          {/* <iframe
                             src={`https://www.youtube.com/embed/${el?.key}?showinfo=0&enablejsapi=1&origin=http://localhost:3000`}
                             title={el?.id}
+                            frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
                             width="100%"
-                            height="100%"></iframe>
+                            height="90%"></iframe> */}
+                          {/* <ReactPlayer
+                            url={`https://www.youtube.com/embed/${el?.key}?showinfo=0&enablejsapi=1&origin=http://localhost:3000`}
+                            config={{ youtube: { playerVars: { origin: "https://www.youtube.com" } } }}
+                            width="100%"
+                            height="100%"
+                          /> */}
                         </div>
                       </SwiperSlide>
                     );
@@ -283,7 +291,6 @@ const DetailPage = () => {
             </div>
             <div className=" w-full h-full">
               <h1 className="md:text-[26px] text-2xl font-bold mb-5">POSTERS</h1>
-
               <Swiper
                 pagination={{
                   clickable: true,
@@ -292,7 +299,13 @@ const DetailPage = () => {
                   0: {
                     slidesPerView: 2,
                   },
+                  450: {
+                    slidesPerView: 3,
+                  },
                   768: {
+                    slidesPerView: 4,
+                  },
+                  1024: {
                     slidesPerView: 5,
                   },
                 }}
@@ -300,13 +313,13 @@ const DetailPage = () => {
                 {detailPosters?.posters &&
                   detailPosters?.posters.map((el, i) => {
                     return (
-                      <SwiperSlide className=" h-full" key={i}>
+                      <SwiperSlide className=" !h-auto" key={i}>
                         <LazyLoadImage
                           effect="blur"
                           src={`https://image.tmdb.org/t/p/w500${el.file_path}`}
                           alt="posters"
                           placeholderSrc={placeholderPoster}
-                          className=""
+                          className=" h-full"
                         />
                       </SwiperSlide>
                     );
@@ -316,7 +329,6 @@ const DetailPage = () => {
             <div className=" w-full h-full">
               <h1 className=" md:text-[26px] text-2xl font-bold mb-5">SIMILAR MOVIE</h1>
               <Swiper
-                slidesPerView={5}
                 pagination={{
                   clickable: true,
                 }}
@@ -324,7 +336,13 @@ const DetailPage = () => {
                   0: {
                     slidesPerView: 2,
                   },
+                  450: {
+                    slidesPerView: 3,
+                  },
                   768: {
+                    slidesPerView: 4,
+                  },
+                  1024: {
                     slidesPerView: 5,
                   },
                 }}
@@ -333,7 +351,7 @@ const DetailPage = () => {
                   {detailSimilar?.results &&
                     detailSimilar?.results.map((el) => {
                       return (
-                        <SwiperSlide>
+                        <SwiperSlide className=" !h-auto">
                           <Link key={el?.id} to={`/${mediaType}/${el?.id}`}>
                             {el?.poster_path === null ? (
                               <LazyLoadImage
@@ -349,7 +367,7 @@ const DetailPage = () => {
                                 alt={el.title}
                                 placeholderSrc={placeholderPoster}
                                 effect="blur"
-                                className=" h-full object-cover
+                                className=" h-full
                                 "
                               />
                             )}
