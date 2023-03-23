@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Backdrop from "../components/Backdrop";
 import { useGetMovies } from "../hooks/movie-api/useGetMovies";
 import { useGetGenreMovie } from "../hooks/movie-api/useGetGenreMovie";
@@ -14,9 +14,13 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import "react-circular-progressbar/dist/styles.css";
 import CircleRating from "../components/circle-rating/CircleRating";
 import { Link } from "react-router-dom";
+import LoadingPage from "./LoadingPage";
+
+import { DataContext } from "../contextProvider/DataProvider";
 
 const MoviePage = () => {
   const mediaType = "movie";
+  const [theme] = useContext(DataContext);
   const [category, setCategory] = useState("popular");
 
   const { data, isError, error, isFetching, isLoading } = useGetMovies({
@@ -30,6 +34,10 @@ const MoviePage = () => {
   } = useGetInfiniteMovies({ pageParam: 1, mediaCategory: category });
 
   const { data: genreMovie } = useGetGenreMovie();
+
+  if (isLoading || isFetching) {
+    return <LoadingPage />;
+  }
 
   return (
     <>
@@ -45,11 +53,14 @@ const MoviePage = () => {
         />
       </div>
       {/* Komponen Title, Button dan mapping movie */}
-      <div className=" lg:px-20 md:px-10 px-3">
-        <div className="w-full my-3 lg:flex lg:justify-between">
+      <div className=" lg:px-20 md:px-10 px-3 pb-10">
+        <div className="w-full my-3 lg:flex lg:justify-between lg:pt-7">
           {/* Title Movies */}
           <div className="flex justify-center">
-            <h1 className="text-2xl mb-5 lg:mb-0 lg:py-2 font-bold md:text-4xl">MOVIES</h1>
+            <h1
+              className={`text-2xl mb-5 lg:mb-0 lg:py-2 font-bold md:text-4xl ${theme ? "text-white" : "text-black"}`}>
+              MOVIES
+            </h1>
           </div>
           {/* Button Popular & Top rated Movies */}
           <div className="flex justify-center text-xl font-semibold">
@@ -98,10 +109,12 @@ const MoviePage = () => {
                           className="absolute w-full h-full bg-gradient-to-t from-black to-transparent
                         flex items-center justify-center lg:-bottom-10 lg:opacity-0 opacity-1 lg:group-hover:opacity-100 lg:group-hover:bottom-0 transition-all duration-300 bottom-0">
                           <div className="absolute w-full h-full lg:flex justify-center items-center hidden">
-                            <BsFillPlayFill className="w-[70px] h-12 rounded absolute bg-primary_button text-white hover:bg-secondary_button transition-all ease-out duration-200" />
+                            <button className="w-[70px] h-9 rounded absolute bg-primary_button text-white hover:bg-secondary_button transition-all ease-out duration-200 flex justify-center items-center">
+                              <BsFillPlayFill className=" w-8 h-8" />
+                            </button>
                           </div>
                           <div className="absolute bottom-0 lg:bottom-2 left-0 right-0 text-white px-2 py-2 lg:px-4 lg:py-3">
-                            <CircleRating rating={el.vote_average} textRating={el.vote_average} />
+                            <CircleRating rating={el.vote_average} textRating={el.vote_average} textColor={"white"} />
                             <p className="truncate  mt-2 md:mt-3 lg:mt-4 font-semibold md:font-bold">
                               {el.release_date}
                             </p>
