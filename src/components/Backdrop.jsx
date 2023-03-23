@@ -11,6 +11,8 @@ import { DataContext } from "../contextProvider/DataProvider";
 import { Link } from "react-router-dom";
 import LoadingPage from "../pages/LoadingPage";
 
+import placeholderBackdrop from "../assets/placeholder-backdrop.png";
+
 const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaType }) => {
   const [theme, setTheme] = useContext(DataContext);
 
@@ -88,11 +90,15 @@ const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaTyp
                     </Link>
                   </div>
                 </div>
-                <img
-                  src={`https://image.tmdb.org/t/p/original${el.backdrop_path}`}
-                  alt={el.title}
-                  className="  w-full h-full object-cover"
-                />
+                {el.backdrop_path === null ? (
+                  <img src={placeholderBackdrop} alt={el.title} className="  w-full h-full object-cover" />
+                ) : (
+                  <img
+                    src={`https://image.tmdb.org/t/p/original${el.backdrop_path}`}
+                    alt={el.title}
+                    className="  w-full h-full object-cover"
+                  />
+                )}
               </SwiperSlide>
             );
           })}
