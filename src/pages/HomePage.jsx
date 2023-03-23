@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Backdrop from "../components/Backdrop";
 
 import { useGetMovies } from "../hooks/movie-api/useGetMovies";
 import { useGetGenreMovie } from "../hooks/movie-api/useGetGenreMovie";
 import { Swiper, SwiperSlide } from "swiper/react";
+
+import { SliderSwiper } from "../components/SliderSwiper";
 import { useGetTv } from "../hooks/tv-api/useGetTv";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "react-router-dom";
 
 const HomePage = () => {
+  const [category, setCategory] = useState("top_rated");
   const mediaType = "movie";
+
   const { data: genreMovie } = useGetGenreMovie();
   const {
     data: dataPopularMovie,
@@ -17,7 +21,8 @@ const HomePage = () => {
     isError: isErrorPopularMovie,
     isFetching: isFetchingPopularMovie,
     error: errorPopularMovie,
-  } = useGetMovies({ pageParam: 1, mediaCategory: "popular" });
+  } = useGetMovies({ pageParam: 1, mediaCategory: category });
+
   const {
     data: dataTopRated,
     isLoading: isLoadingTopRated,
@@ -25,6 +30,7 @@ const HomePage = () => {
     isFetching: isFetchingTopRated,
     error: errorTopRated,
   } = useGetMovies({ pageParam: 1, mediaCategory: "top_rated" });
+
   const {
     data: dataTvPopular,
     isLoading: isLoadingTvPopular,
@@ -39,17 +45,18 @@ const HomePage = () => {
     isFetching: isFetchingTvTopRated,
     error: errorTvTopRated,
   } = useGetTv({ pageParam: 1, mediType: "tv", mediaCategory: "top_rated" });
+
   return (
     <div className=" w-full h-full">
       <div className=" w-full h-full">
         <Backdrop
+          mediaType={mediaType}
           genre={genreMovie}
           data={dataPopularMovie}
           isLoading={isLoadingPopularMovie}
           isError={isErrorPopularMovie}
           error={errorPopularMovie}
           isFetching={isFetchingPopularMovie}
-          mediaType={mediaType}
         />
       </div>
       <div>

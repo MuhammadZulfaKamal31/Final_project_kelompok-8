@@ -13,6 +13,7 @@ import { DataContext } from "./contextProvider/DataProvider";
 import { useContext } from "react";
 import DetailPage from "./pages/DetailPage";
 
+
 function App() {
   const [theme, setTheme] = useContext(DataContext)
 
@@ -25,6 +26,7 @@ function App() {
           <Route path="/movie" element={<MoviePage />} />
           <Route path="/tv" element={<TvPage />} />
           <Route path="/:mediaType/:mediaId" element={<DetailPage />} />
+
         </Routes>
         <Footer />
       </div>
