@@ -11,11 +11,9 @@ import { DataContext } from "../contextProvider/DataProvider";
 import { Link } from "react-router-dom";
 import LoadingPage from "../pages/LoadingPage";
 
-
 import placeholderBackdrop from "../assets/placeholder-backdrop.png";
 
 import CircleRating from "./circle-rating/CircleRating";
-
 
 const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaType }) => {
   const [theme, setTheme] = useContext(DataContext);
@@ -33,10 +31,10 @@ const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaTyp
       <Swiper
         loop={true}
         centeredSlides={true}
-        // autoplay={{
-        //   delay: 4000,
-        //   disableOnInteraction: false,
-        // }}
+        autoplay={{
+          delay: 4000,
+          disableOnInteraction: false,
+        }}
         navigation={false}
         modules={[Autoplay, History]}
         className=" w-full md:h-screen h-full absolute">
@@ -63,7 +61,6 @@ const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaTyp
                       {truncateString(el.title, 32) || truncateString(el.name, 32)}
                     </h1>
 
-                   
                     <div className=" flex items-center gap-x-8">
                       <div className=" text-white flex items-center gap-x-4">
                         {!getGenres.length ? (
@@ -80,8 +77,11 @@ const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaTyp
                           })
                         )}
                       </div>
-                      <CircleRating rating={el.vote_average} textRating={el.vote_average} />
-
+                      <CircleRating
+                        rating={el.vote_average}
+                        textRating={el.vote_average}
+                        textColor={theme ? "white" : "black"}
+                      />
                     </div>
                     <p
                       className={` ${theme ? "text-white" : "text-black"} drop-shadow-md md:text-base hidden md:block`}>
