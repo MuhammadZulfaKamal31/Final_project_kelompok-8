@@ -5,10 +5,11 @@ import { useGetMovies } from "../hooks/movie-api/useGetMovies";
 import { useGetGenreMovie } from "../hooks/movie-api/useGetGenreMovie";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useGetTv } from "../hooks/tv-api/useGetTv";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "react-router-dom";
 
 const HomePage = () => {
+  const mediaType = "movie";
   const { data: genreMovie } = useGetGenreMovie();
   const {
     data: dataPopularMovie,
@@ -30,14 +31,14 @@ const HomePage = () => {
     isError: isErrorTvPopular,
     isFetching: isFetchingTvPopular,
     error: errorTvPopular,
-  } = useGetTv({ pageParam: 1,mediType:"tv", mediaCategory : "popular" });
+  } = useGetTv({ pageParam: 1, mediType: "tv", mediaCategory: "popular" });
   const {
     data: dataTvTopRated,
     isLoading: isLoadingTvTopRated,
     isError: isErrorTvTopRated,
     isFetching: isFetchingTvTopRated,
     error: errorTvTopRated,
-  } = useGetTv({ pageParam: 1,mediType:"tv", mediaCategory : "top_rated" });
+  } = useGetTv({ pageParam: 1, mediType: "tv", mediaCategory: "top_rated" });
   return (
     <div className=" w-full h-full">
       <div className=" w-full h-full">
@@ -48,6 +49,7 @@ const HomePage = () => {
           isError={isErrorPopularMovie}
           error={errorPopularMovie}
           isFetching={isFetchingPopularMovie}
+          mediaType={mediaType}
         />
       </div>
       <div>
@@ -55,10 +57,10 @@ const HomePage = () => {
           <span className="underline decoration-red-600 decoration-4 underline-offset-8">POPULAR</span> MOVIES
         </h1>
       </div>
-      <Swiper 
+      <Swiper
         spaceBetween={5}
-        pagination ={{
-          clickable : true,
+        pagination={{
+          clickable: true,
         }}
         breakpoints={{
           0: {
@@ -67,29 +69,26 @@ const HomePage = () => {
           768: {
             slidesPerView: 5,
           },
-        }}
-      >
-          {dataPopularMovie?.results.map((el,i) => {
-            return (
-              <SwiperSlide key={i}>
-                <Link to={`movie/${el.id}`}>
-                <LazyLoadImage 
-                src={`https://image.tmdb.org/t/p/w500${el.poster_path
-              }`} />
-                </Link>
-              </SwiperSlide>
-            )}
-          )}
-          </Swiper>
-          <div>
+        }}>
+        {dataPopularMovie?.results.map((el, i) => {
+          return (
+            <SwiperSlide key={i}>
+              <Link to={`movie/${el.id}`}>
+                <LazyLoadImage src={`https://image.tmdb.org/t/p/w500${el.poster_path}`} />
+              </Link>
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
+      <div>
         <h1 className="my-10 mx-24 mb-8 text-2xl font-semibold text-white">
           <span className="underline decoration-red-600 decoration-4 underline-offset-8">TOP RATED</span> MOVIES
         </h1>
       </div>
-      <Swiper 
+      <Swiper
         spaceBetween={5}
-        pagination ={{
-          clickable : true,
+        pagination={{
+          clickable: true,
         }}
         breakpoints={{
           0: {
@@ -98,32 +97,26 @@ const HomePage = () => {
           768: {
             slidesPerView: 5,
           },
-        }}
-        >
-          
-          {dataTopRated?.results.map((el,i) => {
-            return (
-              <SwiperSlide key={i}>
-                <Link to={`movie/${el.id}`}>
-                <LazyLoadImage 
-                src={`https://image.tmdb.org/t/p/w500${el.poster_path
-              }`} />
-                </Link>
-                
-                
-              </SwiperSlide>
-            )}
-          )}
-          </Swiper>
-          <div>
+        }}>
+        {dataTopRated?.results.map((el, i) => {
+          return (
+            <SwiperSlide key={i}>
+              <Link to={`movie/${el.id}`}>
+                <LazyLoadImage src={`https://image.tmdb.org/t/p/w500${el.poster_path}`} />
+              </Link>
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
+      <div>
         <h1 className="my-10 mx-24 mb-8 text-2xl font-semibold text-white">
           <span className="underline decoration-red-600 decoration-4 underline-offset-8">POPULAR</span> SERIES
         </h1>
       </div>
-      <Swiper 
+      <Swiper
         spaceBetween={5}
-        pagination ={{
-          clickable : true,
+        pagination={{
+          clickable: true,
         }}
         breakpoints={{
           0: {
@@ -133,29 +126,25 @@ const HomePage = () => {
             slidesPerView: 5,
           },
         }}>
-          {dataTvPopular?.results.map((el,i) => {
-            return (
-              <SwiperSlide key={i}>
-                <Link to={`tv/${el.id}`}>
-                <LazyLoadImage 
-                src={`https://image.tmdb.org/t/p/w500${el.poster_path
-              }`} />
-                </Link>
-                
-                
-              </SwiperSlide>
-            )}
-          )}
-          </Swiper>
-          <div>
+        {dataTvPopular?.results.map((el, i) => {
+          return (
+            <SwiperSlide key={i}>
+              <Link to={`tv/${el.id}`}>
+                <LazyLoadImage src={`https://image.tmdb.org/t/p/w500${el.poster_path}`} />
+              </Link>
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
+      <div>
         <h1 className="my-10 mx-24 mb-8 text-2xl font-semibold text-white">
           <span className="underline decoration-red-600 decoration-4 underline-offset-8">TOP RATED</span> SERIES
         </h1>
       </div>
-      <Swiper 
+      <Swiper
         spaceBetween={5}
-        pagination ={{
-          clickable : true,
+        pagination={{
+          clickable: true,
         }}
         breakpoints={{
           0: {
@@ -165,21 +154,16 @@ const HomePage = () => {
             slidesPerView: 5,
           },
         }}>
-          {dataTvTopRated?.results.map((el,i) => {
-            return (
-              <SwiperSlide key={i}>
-                <Link to={`tv/${el.id}`}>
-                <LazyLoadImage 
-                src={`https://image.tmdb.org/t/p/w500${el.poster_path
-              }`} />
-                </Link>
-                
-                
-              </SwiperSlide>
-            )}
-          )}
-          </Swiper>
-      
+        {dataTvTopRated?.results.map((el, i) => {
+          return (
+            <SwiperSlide key={i}>
+              <Link to={`tv/${el.id}`}>
+                <LazyLoadImage src={`https://image.tmdb.org/t/p/w500${el.poster_path}`} />
+              </Link>
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
     </div>
   );
 };
