@@ -19,6 +19,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 
 import placeholderPoster from "../assets/placeholder-img.png";
 import placeholderBackdrop from "../assets/placeholder-backdrop.png";
+import { Link } from "react-router-dom";
 import LoadingPage from "./LoadingPage";
 import { FaPlay } from "react-icons/fa";
 import { DataContext } from "../contextProvider/DataProvider";
@@ -26,6 +27,7 @@ import { DataContext } from "../contextProvider/DataProvider";
 import CircleRating from "../components/circle-rating/CircleRating";
 
 import SliderCard from "../components/SliderCard";
+import { BsFillPlayFill } from "react-icons/bs";
 
 const DetailPage = () => {
   const [theme] = useContext(DataContext);

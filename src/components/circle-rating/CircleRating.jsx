@@ -13,7 +13,6 @@ const CircleRating = ({ rating, textRating, textColor }) => {
           trailColor: "#0000",
           textSize: "1.7rem",
           textColor: textColor,
-
           strokeLinecap: "butt",
           pathColor: rating < 5 ? "red" : rating < 7 ? "orange" : "green",
         })}
