@@ -3,7 +3,7 @@ import React from "react";
 const Footer = () => {
   return (
     <>
-      <footer className="mt-20 md:flex bg-[rgb(19,19,19)] w-full h-[100px] justify-between p-5 align-middle font-semibold">
+      <footer className=" md:flex bg-[rgb(19,19,19)] w-full h-[100px] justify-between p-5 align-middle font-semibold">
         <div className="flex items-center p-5">
           <img src="../assets/logo.png" className="h-[80px] " alt="" />
         </div>

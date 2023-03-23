@@ -24,6 +24,10 @@ import LoadingPage from "./LoadingPage";
 import { FaPlay } from "react-icons/fa";
 import { DataContext } from "../contextProvider/DataProvider";
 
+import CircleRating from "../components/circle-rating/CircleRating";
+
+import { BsFillPlayFill } from "react-icons/bs";
+
 const DetailPage = () => {
   const [theme] = useContext(DataContext);
   const { mediaType, mediaId } = useParams();
@@ -81,6 +85,8 @@ const DetailPage = () => {
     isFetching: isFetchingDetailSimilar,
   } = useGetDetailCategory({ mediaId: mediaId, mediaType: mediaType, detailCategory: detailCategories.similar });
 
+  console.log({ isErrorDetail });
+
   if (
     loadingDetail ||
     isFetchingDetail ||
@@ -123,14 +129,8 @@ const DetailPage = () => {
         )}
       </div>
       <div className="w-full h-full flex-col flex">
-        {/* <DetailHeader
-          detail={detail}
-          loadingDetailCredits={loadingDetailCredits}
-          detailCredits={detailCredits}
-          scrollFunction={executeScroll}
-        /> */}
-        <div className="w-full h-full flex gap-x-7  z-40 lg:pt-56 lg:px-[90px] lg:flex-row flex-col pt-20 md:pt-40 md:px-[40px] px-[10px]">
-          <div className=" lg:w-[39%]  flex items-center justify-center w-full ">
+        <div className="w-full h-full flex gap-x-7 z-40 lg:pt-56 lg:px-[90px] lg:flex-row flex-col pt-20 md:pt-40 md:px-[40px] px-[10px]">
+          <div className=" xl:w-[39%] lg:[60%] lg:block flex items-center justify-center w-full ">
             <div className=" md:w-[50%] lg:w-full w-[70%]">
               {detail?.poster_path === null ? (
                 <LazyLoadImage
@@ -165,13 +165,19 @@ const DetailPage = () => {
                   </span>
                 );
               })}
+              <div className=" pl-4">
+                <CircleRating
+                  rating={detail.vote_average}
+                  textRating={detail.vote_average.toFixed(1)}
+                  textColor={`${theme ? "white" : "black"}`}
+                />
+              </div>
             </div>
             <p className=" drop-shadow-lg">{detail?.overview}</p>
             <div>
               <button
                 className=" text-white lg:w-40 w-[147px] lg:h-[45px] h-[37px] bg-primary_button shadow-xl lg:rounded-lg rounded flex justify-center items-center gap-x-3 hover:bg-secondary_button"
-                // onClick={scrollFunction}
-              >
+                onClick={executeScroll}>
                 <FaPlay />
                 Watch Now
               </button>
@@ -198,6 +204,9 @@ const DetailPage = () => {
                         slidesPerView: 4,
                       },
                       768: {
+                        slidesPerView: 4,
+                      },
+                      1280: {
                         slidesPerView: 5,
                       },
                     }}
@@ -220,8 +229,8 @@ const DetailPage = () => {
                                   src={`https://image.tmdb.org/t/p/original${cast?.profile_path}`}
                                   alt={cast.name}
                                   key={i}
-                                  // effect="blur"
-                                  // placeholderSrc={placeholderPoster}
+                                  effect="blur"
+                                  placeholderSrc={placeholderPoster}
                                 />
                               )}
                             </SwiperSlide>
@@ -250,11 +259,20 @@ const DetailPage = () => {
                     return (
                       <SwiperSlide className=" w-full" key={el?.id}>
                         <div className=" aspect-video">
-                          <iframe
+                          {/* <iframe
                             src={`https://www.youtube.com/embed/${el?.key}?showinfo=0&enablejsapi=1&origin=http://localhost:3000`}
                             title={el?.id}
+                            frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
                             width="100%"
-                            height="100%"></iframe>
+                            height="90%"></iframe> */}
+                          {/* <ReactPlayer
+                            url={`https://www.youtube.com/embed/${el?.key}?showinfo=0&enablejsapi=1&origin=http://localhost:3000`}
+                            config={{ youtube: { playerVars: { origin: "https://www.youtube.com" } } }}
+                            width="100%"
+                            height="100%"
+                          /> */}
                         </div>
                       </SwiperSlide>
                     );
@@ -283,7 +301,6 @@ const DetailPage = () => {
             </div>
             <div className=" w-full h-full">
               <h1 className="md:text-[26px] text-2xl font-bold mb-5">POSTERS</h1>
-
               <Swiper
                 pagination={{
                   clickable: true,
@@ -292,7 +309,13 @@ const DetailPage = () => {
                   0: {
                     slidesPerView: 2,
                   },
+                  450: {
+                    slidesPerView: 3,
+                  },
                   768: {
+                    slidesPerView: 4,
+                  },
+                  1024: {
                     slidesPerView: 5,
                   },
                 }}
@@ -300,23 +323,22 @@ const DetailPage = () => {
                 {detailPosters?.posters &&
                   detailPosters?.posters.map((el, i) => {
                     return (
-                      <SwiperSlide className=" h-full" key={i}>
+                      <SwiperSlide className=" !h-auto" key={i}>
                         <LazyLoadImage
                           effect="blur"
                           src={`https://image.tmdb.org/t/p/w500${el.file_path}`}
                           alt="posters"
                           placeholderSrc={placeholderPoster}
-                          className=""
+                          className=" h-full"
                         />
                       </SwiperSlide>
                     );
                   })}
               </Swiper>
             </div>
-            <div className=" w-full h-full">
+            <div className=" w-full h-full lg:mb-20 md:mb-16 mb-12">
               <h1 className=" md:text-[26px] text-2xl font-bold mb-5">SIMILAR MOVIE</h1>
               <Swiper
-                slidesPerView={5}
                 pagination={{
                   clickable: true,
                 }}
@@ -324,7 +346,13 @@ const DetailPage = () => {
                   0: {
                     slidesPerView: 2,
                   },
+                  450: {
+                    slidesPerView: 3,
+                  },
                   768: {
+                    slidesPerView: 4,
+                  },
+                  1024: {
                     slidesPerView: 5,
                   },
                 }}
@@ -332,28 +360,53 @@ const DetailPage = () => {
                 <div>
                   {detailSimilar?.results &&
                     detailSimilar?.results.map((el) => {
+                      console.log(el.vote_average, el.vote_average.toFixed(1));
                       return (
-                        <SwiperSlide>
-                          <Link key={el?.id} to={`/${mediaType}/${el?.id}`}>
-                            {el?.poster_path === null ? (
-                              <LazyLoadImage
-                                src={placeholderPoster}
-                                alt={el?.title}
-                                placeholderSrc={placeholderPoster}
-                                effect="blur"
-                                className=" h-full"
-                              />
-                            ) : (
-                              <LazyLoadImage
-                                src={`https://image.tmdb.org/t/p/w500${el?.poster_path}`}
-                                alt={el.title}
-                                placeholderSrc={placeholderPoster}
-                                effect="blur"
-                                className=" h-full object-cover
+                        <SwiperSlide className=" !h-auto group">
+                          <div className=" h-full relative cursor-pointer  overflow-hidden">
+                            <Link key={el?.id} to={`/${mediaType}/${el?.id}`}>
+                              {el?.poster_path === null ? (
+                                <LazyLoadImage
+                                  src={placeholderPoster}
+                                  alt={el?.title}
+                                  placeholderSrc={placeholderPoster}
+                                  effect="blur"
+                                  className=" h-full"
+                                />
+                              ) : (
+                                <LazyLoadImage
+                                  src={`https://image.tmdb.org/t/p/w500${el?.poster_path}`}
+                                  alt={el.title}
+                                  placeholderSrc={placeholderPoster}
+                                  effect="blur"
+                                  className=" h-full
                                 "
-                              />
-                            )}
-                          </Link>
+                                />
+                              )}
+                              <div
+                                className="absolute w-full h-full bg-gradient-to-t from-black to-transparent
+                        flex items-center justify-center lg:-bottom-10 lg:opacity-0 opacity-1 lg:group-hover:opacity-100 lg:group-hover:bottom-0 transition-all duration-300 bottom-0">
+                                <div className="absolute w-full h-full lg:flex justify-center items-center hidden">
+                                  <button className="w-[70px] h-9 rounded absolute bg-primary_button text-white hover:bg-secondary_button transition-all ease-out duration-200 flex justify-center items-center">
+                                    <BsFillPlayFill className=" w-8 h-8" />
+                                  </button>
+                                </div>
+                                <div className="absolute bottom-0 lg:bottom-2 left-0 right-0 text-white px-2 py-2 lg:px-4 lg:py-3">
+                                  <CircleRating
+                                    rating={el.vote_average}
+                                    textRating={el.vote_average.toFixed(1)}
+                                    textColor={"white"}
+                                  />
+                                  <p className="truncate  mt-2 md:mt-3 lg:mt-4 font-semibold md:font-bold">
+                                    {detail.last_air_date || detail.release_date}
+                                  </p>
+                                  <p className="truncate font-bold mt-2 md:font-bold lg:text-lg">
+                                    {el.title || el.name}
+                                  </p>
+                                </div>
+                              </div>
+                            </Link>
+                          </div>
                         </SwiperSlide>
                       );
                     })}

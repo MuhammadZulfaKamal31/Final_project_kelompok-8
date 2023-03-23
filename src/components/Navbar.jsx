@@ -4,6 +4,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { BiMoon } from "react-icons/bi";
 import { BiSun } from "react-icons/bi";
 import { DataContext } from "../contextProvider/DataProvider";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [theme, setTheme] = useContext(DataContext);

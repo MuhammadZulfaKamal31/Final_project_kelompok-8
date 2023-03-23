@@ -5,14 +5,17 @@ import { useGetMovies } from "../hooks/movie-api/useGetMovies";
 import { useGetGenreMovie } from "../hooks/movie-api/useGetGenreMovie";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+
+
 import { SliderSwiper } from "../components/SliderSwiper";
 import { useGetTv } from "../hooks/tv-api/useGetTv";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Link } from "react-router-dom";
 
 
+
 const HomePage = () => {
-  const [category, setCategory] = useState("popular");
+  const [category, setCategory] = useState("top_rated");
   const mediaType = "movie";
 
   const { data: genreMovie } = useGetGenreMovie();
