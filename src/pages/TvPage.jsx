@@ -95,7 +95,9 @@ const TvPage = () => {
                           className="absolute w-full h-full bg-gradient-to-t from-black to-transparent
                         flex items-center justify-center lg:-bottom-10 lg:opacity-0 opacity-1 lg:group-hover:opacity-100 lg:group-hover:bottom-0 transition-all duration-300 bottom-0">
                           <div className="absolute w-full h-full lg:flex justify-center items-center hidden">
-                            <BsFillPlayFill className="w-[70px] h-12 rounded absolute bg-primary_button text-white hover:bg-secondary_button transition-all ease-out duration-200" />
+                            <button className="w-[70px] h-9 rounded absolute bg-primary_button text-white hover:bg-secondary_button transition-all ease-out duration-200 flex justify-center items-center">
+                              <BsFillPlayFill className=" w-8 h-8" />
+                            </button>
                           </div>
                           <div className="absolute bottom-0 lg:bottom-2 left-0 right-0 text-white px-2 py-2 lg:px-4 lg:py-3">
                             <CircleRating rating={el.vote_average} textRating={el.vote_average} textColor={"white"} />

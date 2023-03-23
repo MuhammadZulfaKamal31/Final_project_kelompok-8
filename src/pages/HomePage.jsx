@@ -14,7 +14,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import { BsFillPlayFill } from "react-icons/bs";
 import CircleRating from "../components/circle-rating/CircleRating";
 
-import SliderCard from "../components/SliderCard";
+import SliderCard from "../components/slider-card/SliderCard";
 
 import { DataContext } from "../contextProvider/DataProvider";
 import LoadingPage from "./LoadingPage";

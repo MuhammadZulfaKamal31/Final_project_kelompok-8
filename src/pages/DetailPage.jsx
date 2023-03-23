@@ -26,7 +26,7 @@ import { DataContext } from "../contextProvider/DataProvider";
 
 import CircleRating from "../components/circle-rating/CircleRating";
 
-import SliderCard from "../components/SliderCard";
+import SliderCard from "../components/slider-card/SliderCard";
 import { BsFillPlayFill } from "react-icons/bs";
 
 const DetailPage = () => {
@@ -330,7 +330,7 @@ const DetailPage = () => {
                           src={`https://image.tmdb.org/t/p/w500${el.file_path}`}
                           alt="posters"
                           placeholderSrc={placeholderPoster}
-                          className=" h-full"
+                          className=" h-full object-cover"
                         />
                       </SwiperSlide>
                     );
