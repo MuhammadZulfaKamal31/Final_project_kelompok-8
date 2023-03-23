@@ -11,6 +11,8 @@ import { DataContext } from "../contextProvider/DataProvider";
 import { Link } from "react-router-dom";
 import LoadingPage from "../pages/LoadingPage";
 
+import CircleRating from "./circle-rating/CircleRating";
+
 const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaType }) => {
   const [theme, setTheme] = useContext(DataContext);
 
@@ -27,10 +29,10 @@ const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaTyp
       <Swiper
         loop={true}
         centeredSlides={true}
-        autoplay={{
-          delay: 4000,
-          disableOnInteraction: false,
-        }}
+        // autoplay={{
+        //   delay: 4000,
+        //   disableOnInteraction: false,
+        // }}
         navigation={false}
         modules={[Autoplay, History]}
         className=" w-full md:h-screen h-full absolute">
@@ -56,22 +58,26 @@ const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaTyp
                       } drop-shadow-lg"`}>
                       {truncateString(el.title, 32) || truncateString(el.name, 32)}
                     </h1>
-                    <div className=" text-white flex items-center gap-x-4">
-                      {!getGenres?.length ? (
-                        <span className=" md:h-9 h-7 flex justify-center items-center md:px-4 px-2 rounded-full bg-primary_button md:text-base text-sm font-semibold">
-                          Action
-                        </span>
-                      ) : (
-                        getGenres?.slice(0, 2).map((el, i) => {
-                          return (
-                            <span
-                              className=" md:h-9 h-7 flex justify-center items-center md:px-4 px-2 rounded-full bg-primary_button md:text-base text-sm font-semibold"
-                              key={i}>
-                              {el.name}
-                            </span>
-                          );
-                        })
-                      )}
+
+                   
+                    <div className=" flex items-center gap-x-8">
+                      <div className=" text-white flex items-center gap-x-4">
+                        {!getGenres.length ? (
+                          <span className=" h-9 flex justify-center items-center px-4 rounded-full bg-red-600">
+                            Action
+                          </span>
+                        ) : (
+                          getGenres?.slice(0, 2).map((el) => {
+                            return (
+                              <span className=" h-9 flex justify-center items-center px-4 rounded-full bg-red-600">
+                                {el.name}
+                              </span>
+                            );
+                          })
+                        )}
+                      </div>
+                      <CircleRating rating={el.vote_average} textRating={el.vote_average} />
+
                     </div>
                     <p
                       className={` ${theme ? "text-white" : "text-black"} drop-shadow-md md:text-base hidden md:block`}>
