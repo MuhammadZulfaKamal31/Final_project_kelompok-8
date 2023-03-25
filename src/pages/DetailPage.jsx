@@ -86,7 +86,7 @@ const DetailPage = () => {
     isFetching: isFetchingDetailSimilar,
   } = useGetDetailCategory({ mediaId: mediaId, mediaType: mediaType, detailCategory: detailCategories.similar });
 
-  console.log({ isErrorDetail });
+ 
 
   if (
     loadingDetail ||
