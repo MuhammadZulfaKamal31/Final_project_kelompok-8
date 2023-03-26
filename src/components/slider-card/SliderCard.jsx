@@ -3,9 +3,11 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import placeholderPoster from "../assets/placeholder-img.png";
+import placeholderPoster from "../../assets/placeholder-img.png";
 import { BsFillPlayFill } from "react-icons/bs";
-import CircleRating from "./circle-rating/CircleRating";
+import CircleRating from "../circle-rating/CircleRating";
+
+import "./sliderCard.css";
 
 const SliderCard = ({ data, mediaType }) => {
   return (
