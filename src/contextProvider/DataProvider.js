@@ -4,7 +4,7 @@ export const DataContext = createContext()
 
 
 export const DataProvider = (props) => {
-
+const [search , setSearch] = useState("")  
     const getTheme = () => {
         return JSON.parse(localStorage.getItem('theme')) || false
     }
@@ -16,7 +16,7 @@ export const DataProvider = (props) => {
     }, [theme])
 
     return (
-        <DataContext.Provider value={[theme, setTheme]}>
+        <DataContext.Provider value={[theme, setTheme ,search ,setSearch ]}>
             {props.children}
         </DataContext.Provider>
     )
