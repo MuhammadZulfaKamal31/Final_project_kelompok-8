@@ -13,7 +13,7 @@ import { DataContext } from "./contextProvider/DataProvider";
 import { useContext } from "react";
 import DetailPage from "./pages/DetailPage";
 import { useLocation } from "react-router-dom";
-import Login from "./components/detail-components/Login";
+import Login from "./pages/Login";
 import SearchPage from "./pages/SearchPage";
 
 function App() {
