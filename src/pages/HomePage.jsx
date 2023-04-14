@@ -3,16 +3,10 @@ import Backdrop from "../components/Backdrop";
 
 import { useGetMovies } from "../hooks/movie-api/useGetMovies";
 import { useGetGenreMovie } from "../hooks/movie-api/useGetGenreMovie";
-import { Swiper, SwiperSlide } from "swiper/react";
 
 import { useGetTv } from "../hooks/tv-api/useGetTv";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { Link } from "react-router-dom";
 
-import placeholderPoster from "../assets/placeholder-img.png";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { BsFillPlayFill } from "react-icons/bs";
-import CircleRating from "../components/circle-rating/CircleRating";
 
 import SliderCard from "../components/slider-card/SliderCard";
 

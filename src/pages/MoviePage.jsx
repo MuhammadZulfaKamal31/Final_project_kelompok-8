@@ -19,7 +19,6 @@ import LoadingPage from "./LoadingPage";
 import { DataContext } from "../contextProvider/DataProvider";
 
 const MoviePage = () => {
-  const mediaType = "movie";
   const [theme] = useContext(DataContext);
   const [category, setCategory] = useState("popular");
 
@@ -43,7 +42,7 @@ const MoviePage = () => {
     <>
       <div className=" w-full h-full">
         <Backdrop
-          mediaType={mediaType}
+          mediaType={"movie"}
           data={data}
           isError={isError}
           isFetching={isFetching}

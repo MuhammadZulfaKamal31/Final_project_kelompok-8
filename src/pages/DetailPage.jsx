@@ -86,8 +86,6 @@ const DetailPage = () => {
     isFetching: isFetchingDetailSimilar,
   } = useGetDetailCategory({ mediaId: mediaId, mediaType: mediaType, detailCategory: detailCategories.similar });
 
- 
-
   if (
     loadingDetail ||
     isFetchingDetail ||
@@ -268,12 +266,7 @@ const DetailPage = () => {
                             allowfullscreen
                             width="100%"
                             height="90%"></iframe> */}
-                          {/* <ReactPlayer
-                            url={`https://www.youtube.com/embed/${el?.key}?showinfo=0&enablejsapi=1&origin=http://localhost:3000`}
-                            config={{ youtube: { playerVars: { origin: "https://www.youtube.com" } } }}
-                            width="100%"
-                            height="100%"
-                          /> */}
+                          <ReactPlayer url={`https://www.youtube.com/embed/${el?.key}`} width="100%" height="100%" />
                         </div>
                       </SwiperSlide>
                     );
