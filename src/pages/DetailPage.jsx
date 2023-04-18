@@ -31,6 +31,7 @@ import { BsFillPlayFill } from "react-icons/bs";
 
 const DetailPage = () => {
   const [theme] = useContext(DataContext);
+  console.log(theme)
   const { mediaType, mediaId } = useParams();
   const [isPlaying, setIsPlaying] = useState(null);
   const myRef = useRef(null);
@@ -107,14 +108,12 @@ const DetailPage = () => {
         <div className=" absolute  w-full h-screen">
           <div className={` ${theme ? "bg-[#0000004d]" : "bg-[#f5f5f580]"} w-full h-1/3 hidden lg:block`}></div>
           <div
-            className={` bg-gradient-to-t ${theme ? "from-black" : "from-background_light"} ${
-              theme ? "to-[#0000004d]" : "to-[#f5f5f580]"
-            } w-full h-1/3 lg:hidden block`}></div>
+            className={` bg-gradient-to-t ${theme ? "from-black" : "from-background_light"} ${theme ? "to-[#0000004d]" : "to-[#f5f5f580]"
+              } w-full h-1/3 lg:hidden block`}></div>
           <div className={` ${theme ? "bg-black" : " bg-background_light"} w-full h-1/3 lg:hidden block`}></div>
           <div
-            className={` bg-gradient-to-t ${theme ? "from-black" : "from-background_light"} ${
-              theme ? "to-[#0000004d]" : "to-[#f5f5f580]"
-            } w-full h-1/3 hidden lg:block`}></div>
+            className={` bg-gradient-to-t ${theme ? "from-black" : "from-background_light"} ${theme ? "to-[#0000004d]" : "to-[#f5f5f580]"
+              } w-full h-1/3 hidden lg:block`}></div>
           <div className={`${theme ? "bg-black" : " bg-background_light"}  w-full h-1/3`}></div>
         </div>
         {detail?.backdrop_path === null ? (
@@ -214,7 +213,9 @@ const DetailPage = () => {
                       {detailCredits?.cast &&
                         detailCredits?.cast?.map((cast, i) => {
                           return (
-                            <SwiperSlide className=" w-full h-full relative">
+                            //untuk key bagian ini sebaiknya ditaruh di bagianswiper slide karena itu bagian elemen utama
+                            // supaya elemen tersebut dapat membedakan setiap slide dalam Swiper ketika melakukan perenderan ulang.
+                            <SwiperSlide className=" w-full h-full relative" key={i} >
                               <div className=" absolute z-10 w-full h-full">
                                 <div className=" w-full h-[80%] bg-transparent"></div>
                                 <div className=" w-full h-[20%] bg-black/60 flex justify-center items-center">
@@ -227,7 +228,7 @@ const DetailPage = () => {
                                 <LazyLoadImage
                                   src={`https://image.tmdb.org/t/p/original${cast?.profile_path}`}
                                   alt={cast.name}
-                                  key={i}
+                                  // key={i}
                                   effect="blur"
                                   placeholderSrc={placeholderPoster}
                                 />
@@ -279,12 +280,13 @@ const DetailPage = () => {
                 {detailBackdrops?.backdrops &&
                   detailBackdrops?.backdrops.map((el, i) => {
                     return (
-                      <SwiperSlide>
+                      //untuk key bagian ini sebaiknya ditaruh di bagianswiper slide karena itu bagian elemen utama
+                      // supaya elemen tersebut dapat membedakan setiap slide dalam Swiper ketika melakukan perenderan ulang.
+                      <SwiperSlide key={i}>
                         <LazyLoadImage
                           effect="blur"
                           src={`https://image.tmdb.org/t/p/original${el.file_path}`}
                           alt="backdrops"
-                          key={i}
                           className=" h-auto"
                           placeholderSrc={placeholderBackdrop}
                         />
@@ -317,6 +319,8 @@ const DetailPage = () => {
                 {detailPosters?.posters &&
                   detailPosters?.posters.map((el, i) => {
                     return (
+                      //untuk key bagian ini sebaiknya ditaruh di bagian swiper slide karena itu bagian elemen utama
+                      // supaya elemen tersebut dapat membedakan setiap slide dalam Swiper ketika melakukan perenderan ulang.
                       <SwiperSlide className=" !h-auto" key={i}>
                         <LazyLoadImage
                           effect="blur"

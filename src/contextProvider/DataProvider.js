@@ -7,8 +7,7 @@ export const DataProvider = (props) => {
     const getTheme = () => {
         return JSON.parse(localStorage.getItem('theme')) || false
     }
-
-    const [theme, setTheme] = useState(getTheme())
+    const [theme, setTheme] = useState(getTheme(true))
     const [search, setSearch] = useState("")
 
     useEffect(() => {

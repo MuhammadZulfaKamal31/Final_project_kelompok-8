@@ -40,24 +40,24 @@ const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaTyp
         className=" w-full md:h-screen h-full absolute">
         {data?.results &&
           data?.results.map((el, i) => {
-            const getGenres = filterGenreName(genre?.genres, el.genre_ids);
+            //karena errornya adalah key harus unik, karena genre_ids itu isinya array dan menerima parameter id
+            // maka lebih cocok i sebegai objeknya karena melakukan looping secara berurutan
+            const getGenres = filterGenreName(genre?.genres, i.genre_ids);
+            // console.log(el.genre_ids)
             return (
               <SwiperSlide className=" w-full md:h-screen" key={i}>
                 <div
                   className={`
-                      w-full md:h-screen h-full absolute z-50 bg-gradient-to-t ${
-                        theme ? "from-black" : "from-white"
-                      } via-transparent to-transparent
+                      w-full md:h-screen h-full absolute z-50 bg-gradient-to-t ${theme ? "from-black" : "from-white"
+                    } via-transparent to-transparent
                   `}></div>
                 <div
-                  className={` w-full md:h-screen h-full absolute z-50 bg-gradient-to-r ${
-                    theme ? "from-black" : "from-white "
-                  }  to-transparent lg:pl-52 md:pl-16 md:pr-0 px-5`}>
+                  className={` w-full md:h-screen h-full absolute z-50 bg-gradient-to-r ${theme ? "from-black" : "from-white "
+                    }  to-transparent lg:pl-52 md:pl-16 md:pr-0 px-5`}>
                   <div className=" h-full  max-w-[600px] lg:pt-10 flex flex-col justify-center md:gap-y-10 gap-y-6">
                     <h1
-                      className={`" lg:text-[62px] md:text-[49px] text-[30px] lg:leading-[75px] font-bold ${
-                        theme ? "text-white" : "text-black"
-                      } drop-shadow-lg"`}>
+                      className={`" lg:text-[62px] md:text-[49px] text-[30px] lg:leading-[75px] font-bold ${theme ? "text-white" : "text-black"
+                        } drop-shadow-lg"`}>
                       {truncateString(el.title, 32) || truncateString(el.name, 32)}
                     </h1>
 
