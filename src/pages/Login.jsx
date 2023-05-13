@@ -9,7 +9,10 @@ const Login = () => {
         <h1 className="text-3xl block font-semibold text-center"> Login </h1>
         <hr className="mt-3 text-white"></hr>
         <div className="mt-3">
-          <label htmlFor="username" className="block text-base mb-2  text-white">
+          <label
+            htmlFor="username"
+            className="block text-base mb-2  text-white"
+          >
             {" "}
             Username
           </label>
@@ -19,7 +22,10 @@ const Login = () => {
             placeholder="Enter username"
             id="username"
           />
-          <label htmlFor="password" className="block text-base mb-2 mt-3  text-white">
+          <label
+            htmlFor="password"
+            className="block text-base mb-2 mt-3  text-white"
+          >
             {" "}
             Password
           </label>
@@ -43,6 +49,16 @@ const Login = () => {
         </div>
         <div className="flex mt-4 justify-center items-center p-4 bg-red-600 rounded-2xl cursor-pointer">
           <button className="text-white text-xl font-semibold">SIGN IN</button>
+        </div>
+
+        <div className="flex mt-4 justify-center items-center p-4 bg-blue-500 rounded-2xl cursor-pointer">
+          <Link
+            to="/register"
+            type="button"
+            className="text-white text-xl font-semibold"
+          >
+            REGISTER
+          </Link>
         </div>
       </div>
     </div>
