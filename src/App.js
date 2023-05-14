@@ -29,8 +29,8 @@ function App() {
 
       <div
         className={`w-full h-full ${theme
-            ? " bg-background_dark text-white"
-            : " bg-background_light text-black"
+          ? " bg-background_dark text-white"
+          : " bg-background_light text-black"
           }`}
       >
         <Routes>
