@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { privateRequest } from "../axios/RequestMethod";
 import { AuthContext } from "../contextProvider/AuthContext";
 
 const Login = () => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const [redirect, setRedirect] = useState(false);
   const [login, setLogin] = useState({
     username: "",
     password: "",
@@ -21,17 +22,18 @@ const Login = () => {
     e.preventDefault();
     try {
       const { data } = await privateRequest.post("/login", login);
-      console.log(data);
       setCurrentUser(data);
-      if (currentUser !== null) {
-        navigate("/");
-      }
+      setRedirect(true);
       setLogin("");
     } catch (error) {
       console.log(error);
       setMsg(error);
     }
   };
+
+  if (redirect) {
+    return <Navigate to={"/"} />;
+  }
   return (
     <div className="flex justify-center items-center h-screen bg-black">
       <div className=" bg-zinc-800 w-96 p-6 shadow-lg rounded-md">
