@@ -1,62 +1,89 @@
-import React from "react";
-
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { privateRequest } from "../axios/RequestMethod";
+import { AuthContext } from "../contextProvider/AuthContext";
 
 const Login = () => {
+  const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const [login, setLogin] = useState({
+    username: "",
+    password: "",
+  });
+  const [msg, setMsg] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setLogin((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await privateRequest.post("/login", login);
+      console.log(data);
+      setCurrentUser(data);
+      if (currentUser !== null) {
+        navigate("/");
+      }
+      setLogin("");
+    } catch (error) {
+      console.log(error);
+      setMsg(error);
+    }
+  };
   return (
     <div className="flex justify-center items-center h-screen bg-black">
       <div className=" bg-zinc-800 w-96 p-6 shadow-lg rounded-md">
         <h1 className="text-3xl block font-semibold text-center"> Login </h1>
         <hr className="mt-3 text-white"></hr>
-        <div className="mt-3">
-          <label
-            htmlFor="username"
-            className="block text-base mb-2  text-white"
-          >
-            {" "}
-            Username
-          </label>
-          <input
-            type="text"
-            className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-md text-black"
-            placeholder="Enter username"
-            id="username"
-          />
-          <label
-            htmlFor="password"
-            className="block text-base mb-2 mt-3  text-white"
-          >
-            {" "}
-            Password
-          </label>
-          <input
-            type="Password"
-            className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-md text-black"
-            placeholder="Enter password"
-            id="password"
-          />
-        </div>
-        <div className="mt-3 mb-2 flex justify-between items-center">
-          <div>
-            <input type="checkbox" className="cursor-pointer" />
-            <label htmlFor="remember" className="ml-2  text-white">
-              Remember me
+        <form className=" w-full" onSubmit={handleSubmit}>
+          <div className="mt-3">
+            <label htmlFor="username" className="block text-base mb-2  text-white">
+              {" "}
+              Username
             </label>
+            <input
+              type="text"
+              className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-md text-black"
+              placeholder="Enter username"
+              name="username"
+              onChange={handleChange}
+              autoComplete="off"
+            />
+            <label htmlFor="password" className="block text-base mb-2 mt-3  text-white">
+              {" "}
+              Password
+            </label>
+            <input
+              type="Password"
+              className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-md text-black"
+              placeholder="Enter password"
+              name="password"
+              onChange={handleChange}
+              autoComplete="off"
+            />
           </div>
-          <div>
-            <Link className="text-gray-600"> forgot password?</Link>
+          <div className="mt-3 mb-2 flex justify-between items-center">
+            <div>
+              <input type="checkbox" className="cursor-pointer" />
+              <label htmlFor="remember" className="ml-2  text-white">
+                Remember me
+              </label>
+            </div>
+            <div>
+              <Link className="text-gray-600"> forgot password?</Link>
+            </div>
           </div>
-        </div>
-        <div className="flex mt-4 justify-center items-center p-4 bg-red-600 rounded-2xl cursor-pointer">
-          <button className="text-white text-xl font-semibold">SIGN IN</button>
-        </div>
+          <div className="flex mt-4 justify-center items-center p-4 bg-red-600 rounded-2xl cursor-pointer">
+            <button className="text-white text-xl font-semibold" onClick={handleSubmit}>
+              SIGN IN
+            </button>
+          </div>
+        </form>
 
         <div className="flex mt-4 justify-center items-center p-4 bg-blue-500 rounded-2xl cursor-pointer">
-          <Link
-            to="/register"
-            type="button"
-            className="text-white text-xl font-semibold"
-          >
+          <Link to="/register" type="button" className="text-white text-xl font-semibold">
             REGISTER
           </Link>
         </div>

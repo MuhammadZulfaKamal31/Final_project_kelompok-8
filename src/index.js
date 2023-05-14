@@ -10,6 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { DataProvider } from "./contextProvider/DataProvider";
 
 import ScrollToTop from './helpers/ScrollToTop'
+import { AuthContext, AuthContextProvider } from './contextProvider/AuthContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,7 +31,9 @@ root.render(
       <BrowserRouter>
         <ScrollToTop />
         <DataProvider>
-          <App />
+          <AuthContextProvider>
+            <App />
+          </AuthContextProvider>
         </DataProvider>
       </BrowserRouter>
     </QueryClientProvider>

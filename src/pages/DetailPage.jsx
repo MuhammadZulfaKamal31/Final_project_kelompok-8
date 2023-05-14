@@ -31,7 +31,7 @@ import { BsFillPlayFill } from "react-icons/bs";
 
 const DetailPage = () => {
   const [theme] = useContext(DataContext);
-  console.log(theme)
+  console.log(theme);
   const { mediaType, mediaId } = useParams();
   const [isPlaying, setIsPlaying] = useState(null);
   const myRef = useRef(null);
@@ -108,12 +108,14 @@ const DetailPage = () => {
         <div className=" absolute  w-full h-screen">
           <div className={` ${theme ? "bg-[#0000004d]" : "bg-[#f5f5f580]"} w-full h-1/3 hidden lg:block`}></div>
           <div
-            className={` bg-gradient-to-t ${theme ? "from-black" : "from-background_light"} ${theme ? "to-[#0000004d]" : "to-[#f5f5f580]"
-              } w-full h-1/3 lg:hidden block`}></div>
+            className={` bg-gradient-to-t ${theme ? "from-black" : "from-background_light"} ${
+              theme ? "to-[#0000004d]" : "to-[#f5f5f580]"
+            } w-full h-1/3 lg:hidden block`}></div>
           <div className={` ${theme ? "bg-black" : " bg-background_light"} w-full h-1/3 lg:hidden block`}></div>
           <div
-            className={` bg-gradient-to-t ${theme ? "from-black" : "from-background_light"} ${theme ? "to-[#0000004d]" : "to-[#f5f5f580]"
-              } w-full h-1/3 hidden lg:block`}></div>
+            className={` bg-gradient-to-t ${theme ? "from-black" : "from-background_light"} ${
+              theme ? "to-[#0000004d]" : "to-[#f5f5f580]"
+            } w-full h-1/3 hidden lg:block`}></div>
           <div className={`${theme ? "bg-black" : " bg-background_light"}  w-full h-1/3`}></div>
         </div>
         {detail?.backdrop_path === null ? (
@@ -215,7 +217,7 @@ const DetailPage = () => {
                           return (
                             //untuk key bagian ini sebaiknya ditaruh di bagianswiper slide karena itu bagian elemen utama
                             // supaya elemen tersebut dapat membedakan setiap slide dalam Swiper ketika melakukan perenderan ulang.
-                            <SwiperSlide className=" w-full h-full relative" key={i} >
+                            <SwiperSlide className=" w-full h-full relative" key={i}>
                               <div className=" absolute z-10 w-full h-full">
                                 <div className=" w-full h-[80%] bg-transparent"></div>
                                 <div className=" w-full h-[20%] bg-black/60 flex justify-center items-center">
@@ -259,15 +261,15 @@ const DetailPage = () => {
                     return (
                       <SwiperSlide className=" w-full" key={el?.id}>
                         <div className=" aspect-video">
-                          {/* <iframe
-                            src={`https://www.youtube.com/embed/${el?.key}?showinfo=0&enablejsapi=1&origin=http://localhost:3000`}
-                            title={el?.id}
-                            frameborder="0"
-                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen
+                          <iframe
+                            title="video"
                             width="100%"
-                            height="90%"></iframe> */}
-                          <ReactPlayer url={`https://www.youtube.com/embed/${el?.key}`} width="100%" height="100%" />
+                            height="100%"
+                            src={`https://www.youtube-nocookie.com/embed/${el.key}`}
+                            frameborder="0"
+                            allow="autoplay; encrypted-media"
+                            allowfullscreen></iframe>
+                          {/* <ReactPlayer url={`https://www.youtube.com/embed/${el?.key}`} width="100%" height="100%" /> */}
                         </div>
                       </SwiperSlide>
                     );
