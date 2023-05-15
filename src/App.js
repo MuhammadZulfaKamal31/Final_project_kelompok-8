@@ -1,4 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
+import Routes from "./routes/Routes";
 
 import HomePage from "./pages/HomePage";
 import MoviePage from "./pages/MoviePage";
@@ -22,13 +23,13 @@ import ProtectedRoutes from "./routes/ProtectedRoutes";
 
 function App() {
   const [theme, setTheme] = useContext(DataContext);
-  const location = useLocation();
+
 
   return (
     <>
-      {location.pathname !== "/login" && location.pathname !== "/register" && (
+      {/* {location.pathname !== "/login" && location.pathname !== "/register" && (
         <Navbar />
-      )}
+      )} */}
 
       <div
         className={`w-full h-full ${theme
@@ -47,7 +48,7 @@ function App() {
           <Route path="/search" element={<SearchPage />} />
         </Routes> */}
 
-        <Routes>
+        {/* <Routes>
           <Route path="/*" element={<PageNotFound />} />
             <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
@@ -61,7 +62,8 @@ function App() {
             </Route>
         </Routes>
         {location.pathname !== "/login" &&
-          location.pathname !== "/register" && <Footer />}
+          location.pathname !== "/register" && <Footer />} */}
+        <Routes />
       </div>
     </>
   );

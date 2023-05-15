@@ -8,11 +8,10 @@ import { privateRequest } from "../axios/RequestMethod";
 import { AuthContext } from "../contextProvider/AuthContext";
 import user from "../assets/user.png";
 
-const Navbar2 = () => {
+const Navbar = () => {
   const [theme, setTheme, search, setSearch] = useContext(DataContext);
 
-  const { currentUser, setCurrentUser, ready } = useContext(AuthContext);
-  const [noLogged, setNoLogged] = useState(true);
+  const { currentUser, setCurrentUser } = useContext(AuthContext);
 
   const logout = async () => {
     try {
@@ -66,6 +65,9 @@ const Navbar2 = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  console.log(currentUser);
+
   return (
     <nav
       className={`${
@@ -197,29 +199,28 @@ const Navbar2 = () => {
                 />
               </form>
             </div>
-          </div>
-          <div className="md:flex md:items-center px-4 md:justify-between mr-2 flex gap-x-2">
-            {currentUser !== null && ready === false ? (
-              <>
-                <button
-                  onClick={logout}
+            <div className="md:flex md:items-center px-4 md:justify-between mr-2">
+              {currentUser !== null ? (
+                <>
+                  <button
+                    onClick={logout}
+                    type="button"
+                    className="text-white bg-red-700 font-medium rounded-xl px-5 py-2.5 text-lg hover:opacity-80 transition-all ease-in-out duration-75">
+                    {currentUser?.username}
+                  </button>
+                  <div className=" w-10 h-10 rounded-full overflow-hidden">
+                    <img src={`/assets/${currentUser?.avatar}`} alt="avatar-user" className=" w-full h-full" />
+                  </div>
+                </>
+              ) : (
+                <Link
+                  to="/login"
                   type="button"
                   className="text-white bg-red-700 font-medium rounded-xl px-5 py-2.5 text-lg hover:opacity-80 transition-all ease-in-out duration-75">
-                  {currentUser?.username}
-                </button>
-                <div className=" w-10 h-10 rounded-full overflow-hidden">
-                  <img src={`/assets/${currentUser?.avatar}`} alt="avatar-user" className=" w-full h-full" />
-                </div>
-              </>
-            ) : null}
-            {currentUser === null && noLogged === true && (
-              <Link
-                to="/login"
-                type="button"
-                className="text-white bg-red-700 font-medium rounded-xl px-5 py-2.5 text-lg hover:opacity-80 transition-all ease-in-out duration-75">
-                SIGN IN
-              </Link>
-            )}
+                  SIGN IN
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -227,4 +228,4 @@ const Navbar2 = () => {
   );
 };
 
-export default Navbar2;
+export default Navbar;
