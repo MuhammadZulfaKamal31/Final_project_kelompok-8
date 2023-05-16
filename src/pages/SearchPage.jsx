@@ -33,15 +33,14 @@ const SearchPage = () => {
   };
   
   return (
-    <div className="w-full pb-10 h-[calc(91.3vh_-_180px)] md:h-[calc(91.3vh_-_100px)]">
+    <div className="w-full pb-10 h-screen">
       <div className=" max-h-full w-full flex flex-col pt-28 overflow-auto gap-y-10 px-2 md:px-32 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
         <div
           className={`w-full h-16 flex justify-center items-center ${
             theme ? "text-white" : "text-black"
           }`}
         >
-          <div className="flex flex-col items-center justify-center">
-            <div className="md:hidden mb-5">
+          <div className="w-full flex flex-col items-center justify-center">
               <form action="" className="relative mx-auto w-full">
                 <input
                   type="search"
@@ -49,18 +48,17 @@ const SearchPage = () => {
                   onChange={handleSearch}
                   name="search"
                   id="default-search"
-                  className={`text-[25px] relative peer z-10 bg-transparent h-12 rounded-full border-2 outline-none cursor-pointer p-3 pl-14 ${
+                  className={`text-[25px] relative peer bg-transparent w-full h-12 rounded-full border-2 outline-none cursor-pointer p-3 pl-14 ${
                     theme ? "text-white border-white" : "text-black border-black"
                   } flex item bg-center focus:w-full focus:border-red-500 focus: border-spacing-3 focus:cursor-text focus:pl-14`}
                 />
                 <FontAwesomeIcon
                   icon={faSearch}
-                  className={`h-6 w-6 absolute my-auto pl-3 inset-y-0 flex items-center focus:text-red-600 ${
+                  className={` absolute my-auto pl-3 inset-y-0 flex items-center focus:text-red-600 ${
                     theme ? "text-white" : "text-black"
                   }`}
                 />
               </form>
-            </div>
             <h1 className="text-5xl">{search.toLowerCase()}</h1>
           </div>
         </div>
