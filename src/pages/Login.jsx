@@ -35,7 +35,7 @@ const Login = () => {
     return <Navigate to={"/"} />;
   }
   return (
-    <div className="flex justify-center items-center h-screen bg-black">
+    <div className="flex justify-center items-center h-screen bg-login">
       <div className=" bg-zinc-800 w-96 p-6 shadow-lg rounded-md">
         <h1 className="text-3xl block font-semibold text-center"> Login </h1>
         <hr className="mt-3 text-white"></hr>
