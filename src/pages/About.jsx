@@ -26,9 +26,7 @@ const About = () => {
             About Us
           </h1>
           <p className="text-[15px] text-base text-center drop-shadow-md">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
-            efficitur ultricies libero, at interdum purus vulputate id. Donec
-            convallis tincidunt dui.
+          Immerse yourself in the captivating realm of cinema at Fibra Movie's digital stage, where cinematic beauty breathes life into enchanting tales with unforgettable charm!
           </p>
         </div>
       </div>
@@ -38,23 +36,14 @@ const About = () => {
           <h1 className="text-[30px] lg:leading-[75px] font-bold underline decoration-red-600 decoration-4 underline-offset-8 mb-5">
             FIBRA MOVIE
           </h1>
-          <p className="text-[15px] text-base text-justify drop-shadow-md px-4 md:px-10 lg:px-44 mb-5">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
-            efficitur ultricies libero, at interdum purus vulputate id. Donec
-            convallis tincidunt dui, eu placerat urna lacinia ac. Sed hendrerit
-            mi vitae nisl volutpat, in mollis sem euismod. Lorem ipsum dolor sit
-            amet, consectetur adipiscing elit. Proin efficitur ultricies libero,
-            at interdum purus vulputate id. Donec convallis tincidunt dui, eu
-            placerat urna lacinia ac. Sed hendrerit mi vitae nisl volutpat, in
-            mollis sem euismod.
+          <p className="text-[15px] text-base text-justify drop-shadow-md px-4 md:px-10 lg:px-52 mb-5 indent-10 ">
+          Welcome to Fibra Movie, the digital stage where extraordinary cinematic experiences come to life. We are the ultimate destination for film enthusiasts seeking a new and exciting way to explore the world of cinema. With our vast collection of films spanning various genres, we are committed to providing captivating and inspiring entertainment.
           </p>
-          <p className="text-[15px] text-base text-justify drop-shadow-md px-4 md:px-10 lg:px-44 mb-2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
-            efficitur ultricies libero, at interdum purus vulputate id. Donec
-            convallis tincidunt dui, eu placerat urna lacinia ac. Sed hendrerit
-            mi vitae nisl volutpat, in mollis sem euismod. Lorem ipsum dolor sit
-            amet, consectetur adipiscing elit. Proin efficitur ultricies libero,
-            at interdum purus vulputate id. Donec convallis tincidunt dui,
+          <p className="text-[15px] text-base text-justify drop-shadow-md px-4 md:px-10 lg:px-52 mb-5">
+          At Fibra Movie, we understand the profound impact of films in evoking emotions, sparking thoughts, and igniting the imagination. Our mission is to deliver unforgettable stories that seamlessly blend breathtaking cinematography with compelling narratives. Using the latest technology, we offer stunning online viewing experiences with the highest quality of visuals and sound, ensuring a truly immersive and satisfying encounter for our users.
+          </p>
+          <p className="text-[15px] text-base text-justify drop-shadow-md px-4 md:px-10 lg:px-52 mb-5">
+          We believe that film is a universal language that transcends boundaries and connects people from all walks of life. With this belief, we strive to cultivate an active and passionate community around Fibra Movie, where film lovers can come together to share, discuss, and indulge in the magic of cinema. Join us today and embark on an unforgettable journey through the limitless world of film.
           </p>
         </div>
       </div>
@@ -69,38 +58,29 @@ const About = () => {
             <img src={Watching} alt="" className="bg-cover" />
           </div>
           <div className="w-full md:w-2/3">
-            <div className="px-4 md:px-16">
-              <h1 className="text-[30px] lg:leading-[75px] font-bold">
+            <div className="px-5 lg:px-16">
+              <h1 className="text-[25px] lg:leading-[75px] font-bold">
                 Why Fibra Movie ?
               </h1>
               <p className="text-[15px] text-base text-justify drop-shadow-md mb-2">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
-                efficitur ultricies libero, at interdum purus vulputate id.
-                Donec convallis tincidunt dui, eu placerat urna lacinia ac. Sed
-                hendrerit mi vitae nisl volutpat, in mollis sem euismod. Lorem
-                ipsum dolor sit amet, consectetur adipiscing elit. Proin
-                efficitur ultricies libero, at interdum purus vulputate id.
-                Donec convallis tincidunt dui,
+              Active and Enthusiastic Community: Joining Fibra Movie means becoming a part of an active and enthusiastic community of film enthusiasts. You can interact with fellow users, share perspectives, recommend films, and engage in discussions on fascinating topics related to the world of cinema. Experience the camaraderie with like-minded individuals, broaden your horizons, and forge deeper connections through a shared love for films.
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="w-full h-full md:px-12 py-16">
-        <p className="md:text-[26px] text-2xl font-bold mb-5 uppercase">
-          Developer
+      <div className="w-full h-full px-4 md:px-12 py-16">
+        <p className="md:text-[26px] text-2xl font-bold mb-10 uppercase text-center underline decoration-red-600 decoration-4 underline-offset-8">
+          Our Team
         </p>
-        <div className="grid grid-cols-5 gap-5">
+        <div className="grid grid-cols-4 lg:grid-cols-8 place-items-center gap-y-5">
           {Dev.map(({ name, profile }, i) => (
-            <div tabIndex={1} className="h-full relative">
-              <div className="absolute z-10 w-full h-full">
-                <div className="w-full h-[80%] bg-transparent"></div>
-                <div className="w-[225px] h-[20%] bg-black/60 flex justify-center items-center">
-                  <h1 className=" font-semibold text-white">{name}</h1>
-                </div>
+            <div tabIndex={1} className="">
+              <div className="w-20 h-20 md:h-24 md:w-24 lg:w-32 lg:h-32 rounded-full bg-red-500 flex flex-col items-center justify-center mb-2">
+                <img src={profile} alt="" className="w-32 h-32 rounded-full bg-cover"/>
               </div>
-              <img src={profile} alt="" />
+              <p className="text-center capitalize">{name}</p>
             </div>
           ))}
         </div>
