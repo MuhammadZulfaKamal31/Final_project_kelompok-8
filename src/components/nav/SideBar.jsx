@@ -125,7 +125,7 @@ const Sidebar = () => {
               </NavLink>
               <NavLink
                 className="flex items-center gap-2"
-                to="/search"
+                to="/about"
                 onClick={() => {
                   closeMenu();
                 }}

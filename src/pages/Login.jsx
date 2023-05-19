@@ -35,8 +35,8 @@ const Login = () => {
     return <Navigate to={"/"} />;
   }
   return (
-    <div className="flex justify-center items-center h-screen bg-login">
-      <div className=" bg-zinc-800 w-96 p-6 shadow-lg rounded-md">
+    <div className="flex justify-center items-center h-screen bg-register">
+      <div className=" bg-zinc-800 w-96 absolute z-50 p-6 shadow-lg rounded-md">
         <h1 className="text-3xl block font-semibold text-center"> Login </h1>
         <hr className="mt-3 text-white"></hr>
         <form className=" w-full" onSubmit={handleSubmit}>
@@ -83,7 +83,7 @@ const Login = () => {
               <Link className="text-gray-600"> forgot password?</Link>
             </div>
           </div>
-          <div className="flex mt-5 justify-center items-center py-2 px-2 bg-red-600 rounded-2xl cursor-pointer">
+          <div className="flex mt-5 justify-center items-center py-2 px-2 bg-red-600 rounded-2xl rounded-md hover:opacity-80 transition-all ease-in-out duration-75">
             <button
               type="submit"
               className="text-white md:text-xl sm:text-lg max-[639px]:text-lg"
@@ -94,7 +94,7 @@ const Login = () => {
           </div>
         </form>
 
-        <div className="flex mt-5 justify-center items-center py-2 px-2 bg-blue-400 rounded-2xl cursor-pointer">
+        <div className="flex mt-5 justify-center items-center py-2 px-2 bg-blue-400 rounded-2xl rounded-md hover:opacity-80 transition-all ease-in-out duration-75">
           <Link
             to="/register"
             type="button"

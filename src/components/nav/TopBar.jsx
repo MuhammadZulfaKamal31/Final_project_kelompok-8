@@ -69,7 +69,7 @@ const Topbar = () => {
           />
         </NavLink>
 
-        <div className="flex items-center ml-5 gap-10 text-[15px] lg:text-[18px] font-semibold">
+        <div className="flex items-center ml-10 gap-10 text-[15px] lg:text-[18px] font-semibold">
           <NavLink
             onClick={() => {
               setSearch("");
