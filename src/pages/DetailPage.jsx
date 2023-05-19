@@ -97,6 +97,9 @@ const DetailPage = () => {
     isFetching: isFetchingDetailSimilar,
   } = useGetDetailCategory({ mediaId: mediaId, mediaType: mediaType, detailCategory: detailCategories.similar });
 
+    
+
+
   const {
     data: getComment
   } = useGetComment({mediaType: mediaType, mediaId: mediaId})
@@ -111,6 +114,7 @@ const DetailPage = () => {
     postComment({text:addComment, media_id: mediaId, media_type: mediaType})
     setAddComment("")
   }
+
 
   if (
     loadingDetail ||
