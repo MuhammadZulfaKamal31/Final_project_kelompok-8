@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { privateRequest } from "../axios/RequestMethod";
 import { AuthContext } from "../contextProvider/AuthContext";
+import Validation from "../helpers/LoginValidation";
 
 const Login = () => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
@@ -11,6 +12,7 @@ const Login = () => {
     password: "",
   });
   const [msg, setMsg] = useState("");
+  const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
 
@@ -20,6 +22,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors(Validation(login));
     try {
       const { data } = await privateRequest.post("/login", login);
       setCurrentUser(data);
@@ -35,13 +38,16 @@ const Login = () => {
     return <Navigate to={"/"} />;
   }
   return (
-    <div className="flex justify-center items-center h-screen bg-black">
+    <div className="flex justify-center items-center h-screen bg-login">
       <div className=" bg-zinc-800 w-96 p-6 shadow-lg rounded-md">
         <h1 className="text-3xl block font-semibold text-center"> Login </h1>
         <hr className="mt-3 text-white"></hr>
         <form className=" w-full" onSubmit={handleSubmit}>
           <div className="mt-3">
-            <label htmlFor="username" className="block text-base mb-2  text-white">
+            <label
+              htmlFor="username"
+              className="block text-base mb-2  text-white"
+            >
               {" "}
               Username
             </label>
@@ -53,7 +59,11 @@ const Login = () => {
               onChange={handleChange}
               autoComplete="off"
             />
-            <label htmlFor="password" className="block text-base mb-2 mt-3  text-white">
+            {errors.email && <span className="errors">{errors.email}</span>}
+            <label
+              htmlFor="password"
+              className="block text-base mb-2 mt-3  text-white"
+            >
               {" "}
               Password
             </label>
@@ -65,6 +75,9 @@ const Login = () => {
               onChange={handleChange}
               autoComplete="off"
             />
+            {errors.password && (
+              <span className="errors">{errors.password}</span>
+            )}
           </div>
           <div className="mt-3 mb-2 flex justify-between items-center">
             <div>
@@ -77,15 +90,23 @@ const Login = () => {
               <Link className="text-gray-600"> forgot password?</Link>
             </div>
           </div>
-          <div className="flex mt-4 justify-center items-center p-4 bg-red-600 rounded-2xl cursor-pointer">
-            <button className="text-white text-xl font-semibold" onClick={handleSubmit}>
-              SIGN IN
+          <div className="flex mt-5 justify-center items-center py-2 px-2 bg-red-600 rounded-2xl cursor-pointer">
+            <button
+              type="submit"
+              className="text-white md:text-xl sm:text-lg max-[639px]:text-lg"
+              onClick={handleSubmit}
+            >
+              Login
             </button>
           </div>
         </form>
 
-        <div className="flex mt-4 justify-center items-center p-4 bg-blue-500 rounded-2xl cursor-pointer">
-          <Link to="/register" type="button" className="text-white text-xl font-semibold">
+        <div className="flex mt-5 justify-center items-center py-2 px-2 bg-blue-400 rounded-2xl cursor-pointer">
+          <Link
+            to="/register"
+            type="button"
+            className="text-white md:text-xl sm:text-lg max-[639px]:text-lg"
+          >
             REGISTER
           </Link>
         </div>

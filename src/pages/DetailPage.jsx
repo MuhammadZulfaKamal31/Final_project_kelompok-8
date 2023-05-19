@@ -28,10 +28,20 @@ import CircleRating from "../components/circle-rating/CircleRating";
 
 import SliderCard from "../components/slider-card/SliderCard";
 import { BsFillPlayFill } from "react-icons/bs";
+import { AiOutlineTrademarkCircle } from "react-icons/ai";
+import { IoMdSend } from "react-icons/io";
+import { useGetComment } from "../hooks/comment-api/useGetComment";
+import { AuthContext } from "../contextProvider/AuthContext";
+import { usePostComment } from "../hooks/comment-api/usePostComment";
+import Moment from 'react-moment';
+
+
+
 
 const DetailPage = () => {
+  const {currentUser} = useContext(AuthContext);
+  const [ addComment, setAddComment ] = useState("");
   const [theme] = useContext(DataContext);
-  console.log(theme);
   const { mediaType, mediaId } = useParams();
   const [isPlaying, setIsPlaying] = useState(null);
   const myRef = useRef(null);
@@ -86,7 +96,26 @@ const DetailPage = () => {
     isError: isErrorDetailSimilar,
     isFetching: isFetchingDetailSimilar,
   } = useGetDetailCategory({ mediaId: mediaId, mediaType: mediaType, detailCategory: detailCategories.similar });
-    console.log(detail);
+
+    
+
+
+  const {
+    data: getComment
+  } = useGetComment({mediaType: mediaType, mediaId: mediaId})
+
+  const {mutate: postComment} = usePostComment()
+
+  const handleAddComment = (e) => {
+    setAddComment(e.target.value);
+  }
+
+  const handleSubmitComment = () => {
+    postComment({text:addComment, media_id: mediaId, media_type: mediaType})
+    setAddComment("")
+  }
+
+
   if (
     loadingDetail ||
     isFetchingDetail ||
@@ -335,6 +364,49 @@ const DetailPage = () => {
                     );
                   })}
               </Swiper>
+            </div>
+            <div className="w-full h-full lg:mb-20 md:mb-16 mb-12">
+              <div className="flex mb-5">
+                <h1 className=" md:text-[26px] text-2xl font-bold mr-3">COMMENT</h1>
+                <h1 className=" md:text-[26px] text-2xl font-bold">({getComment?.length})</h1>
+              </div>
+              {
+                getComment?.map((el, i) => {
+                  return (
+                    <div className="flex hover:bg-[rgb(19,19,19)] rounded-md p-3">
+                    <div className="mr-3">
+                  <div className="w-10 h-10 overflow-hidden rounded-full">
+                    <img src={`/assets/${el.user.avatar}`} alt="userImage" className="w-full h-full text-red-500"/>
+                  </div>
+                </div>
+                <div>
+                  <h2 className="text-2xl font-semibold mb-2">{el.user.username}</h2>
+                  <Moment format="DD-MM-YYYY" className="mb-3 text-sm">{el.createdAt}</Moment>
+                  <h2 className="mb-2 text-lg font-semibold">{el.text}</h2>
+                </div>
+              </div>
+                  )
+                })
+              }
+              <hr className="border-[rgb(19,19,19)] mb-7"/>
+              {
+                currentUser !== null? <div className="flex">
+                <div>
+                <div className="w-10 h-10 overflow-hidden rounded-full mr-3">
+                  <img src={`/assets/${currentUser.avatar}`} alt="userImage" className="w-full h-full text-red-500"/>
+                </div>
+                </div>
+                <div className="w-full">
+                  <h2 className="text-2xl font-semibold mb-5">{currentUser.username}</h2>
+                  <textarea value={addComment} onChange={handleAddComment} rows="5" className="w-full mb-3 bg-black border rounded-md p-2 border-[rgb(19,19,19)] hover:border-white" placeholder="Fill your comment . . ." />
+                  <button onClick={handleSubmitComment} className="flex text-center items-center bg-primary_button px-3 py-2 rounded-lg font-semibold">
+                    <IoMdSend className="w-6 h-6 mr-1"/>
+                    POST
+                  </button>
+                </div>
+              </div> : null
+              }
+              
             </div>
             <div className=" w-full h-full lg:mb-20 md:mb-16 mb-12">
               <h1 className=" md:text-[26px] text-2xl font-bold mb-5">SIMILAR MOVIE</h1>

@@ -7,7 +7,7 @@
 }
 
 .nav::after {
-  content: '';
+  content: "";
   position: absolute;
   background: #dc2626;
   height: 1.8px;
@@ -19,4 +19,23 @@
 
 .nav:hover::after {
   width: 100%;
+}
+
+.errors {
+  @apply text-red-600;
+}
+/* .errors-form {
+  @apply focus:border-red-700 focus:ring-2;
+} */
+.bg-register {
+  background-image: url(../src/assets/bg2.jpg);
+  background-size: cover;
+}
+.bg-login {
+  background-image: url(../src/assets/bg9.jpg);
+  background-size: cover;
+}
+button:disabled {
+  opacity: 0.35;
+  cursor: progress;
 }
