@@ -4,6 +4,7 @@ import TvPage from "../pages/TvPage";
 import MoviePage from "../pages/MoviePage";
 import FavoritePage from "../pages/FavoritePage";
 import PageNotFound from "./PageNotFound";
+import About from "../pages/About"
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import SearchPage from "../pages/SearchPage";
@@ -32,6 +33,10 @@ const Routes = () => {
         {
           path: "/search",
           element: <SearchPage />,
+        },
+        {
+          path: "/about",
+          element: <About />,
         },
         {
           path: "/*",

@@ -75,7 +75,7 @@ const HomePage = () => {
           isFetching={isFetchingPopularMovie}
         />
       </div>
-      <div className=" w-full h-full lg:px-16 md:px-12 sm:pt-12 lg:pt-16 sm:px-10 px-4 pb-10 pt-4 ">
+      <div className=" w-full h-full lg:px-16 md:px-12 sm:pt-12 lg:pt-16 sm:px-10 px-4 pb-10 pt-4">
         <div>
           <h1
             className={`my-10  mb-8 text-2xl font-bold ${

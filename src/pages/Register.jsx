@@ -36,8 +36,8 @@ const Register = () => {
   console.log(values);
 
   return (
-    <div className=" flex justify-center sm:mt-0 max-[639]:mt-5 items-center h-screen bg-register">
-      <div className=" bg-zinc-800 w-96 p-6 shadow-lg rounded-md">
+    <div className="flex justify-center sm:mt-0 max-[639]:mt-5 items-center h-screen bg-register">
+      <div className=" bg-zinc-800 w-96 p-6 shadow-lg rounded-md absolute z-50">
         <h1 className="md:text-3xl sm:text-2xl max-[639px]:text-2xl font-semibold text-center">
           {" "}
           Register{" "}
@@ -121,18 +121,18 @@ const Register = () => {
             <input
               type="Password"
               name="confirmPassword"
-              value={values.confirmPassword}
+              value={values.confPassword}
               onChange={handleChange}
               onBlur={handleBlur}
               className="border  w-full md:text-base sm:text-sm max-[639px]:text-sm px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600 rounded-md text-black"
               placeholder="Enter confirm password"
               id="confirmPassword"
             />
-            {touched.confirmPassword && errors.confirmPassword && (
-              <div className="errors">{errors.confirmPassword}</div>
+            {touched.confPassword && errors.confPassword && (
+              <div className="errors">{errors.confPassword}</div>
             )}
 
-            <div className="flex mt-3  justify-center items-center py-2 px-2 bg-red-600 rounded-2xl cursor-pointer">
+            <div className="flex mt-3  justify-center items-center py-2 px-2 bg-red-600 rounded-md hover:opacity-80 transition-all ease-in-out duration-75 cursor-pointer">
               <button
                 type="submit"
                 disabled={isSubmitting}
@@ -145,12 +145,12 @@ const Register = () => {
         </form>
         <hr className=" mt-5 m-2 px-5 text-gray-900"></hr>
         <div className=" flex max-[639px]:flex-wrap  justify-center gap-4 mt-4  rounded-2xl cursor-pointer w-full">
-          <div className="w-full bg-blue-500 flex justify-center items-center py-2 px-2 rounded-2xl cursor-pointer">
+          <div className="w-full bg-blue-500 flex justify-center items-center py-2 px-2 rounded-md hover:opacity-80 transition-all ease-in-out duration-75">
             <Link to="/login" type="button" className="text-white text-xl">
               Login
             </Link>
           </div>
-          <div className="w-full bg-green-500 flex justify-center items-center py-2 px-2 rounded-2xl cursor-pointer text-xl">
+          <div className="w-full bg-green-500 flex justify-center items-center py-2 px-2 rounded-md hover:opacity-80 transition-all ease-in-out duration-75 text-xl">
             <Link to="/" type="button">
               Back to Home
             </Link>
