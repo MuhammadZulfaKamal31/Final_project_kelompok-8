@@ -1,11 +1,11 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { ValidationSchema } from "../helpers/ValidationSchema";
+import { ValidationSchema } from "../helpers/RegValidation";
 import axios from "axios";
 
 const Register = () => {
-  const onSubmit = async (values, actions) => {
+  const onSubmit = async (actions) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     actions.resetForm();
   };

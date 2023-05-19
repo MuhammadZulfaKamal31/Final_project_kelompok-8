@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { privateRequest } from "../axios/RequestMethod";
 import { AuthContext } from "../contextProvider/AuthContext";
+import Validation from "../helpers/LoginValidation";
 
 const Login = () => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
@@ -11,6 +12,7 @@ const Login = () => {
     password: "",
   });
   const [msg, setMsg] = useState("");
+  const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
 
@@ -20,6 +22,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors(Validation(login));
     try {
       const { data } = await privateRequest.post("/login", login);
       setCurrentUser(data);
@@ -56,6 +59,7 @@ const Login = () => {
               onChange={handleChange}
               autoComplete="off"
             />
+            {errors.email && <span className="errors">{errors.email}</span>}
             <label
               htmlFor="password"
               className="block text-base mb-2 mt-3  text-white"
@@ -71,6 +75,9 @@ const Login = () => {
               onChange={handleChange}
               autoComplete="off"
             />
+            {errors.password && (
+              <span className="errors">{errors.password}</span>
+            )}
           </div>
           <div className="mt-3 mb-2 flex justify-between items-center">
             <div>
