@@ -23,6 +23,7 @@ const Topbar = () => {
     } catch (error) {
       console.log(error);
     }
+    setSearch("");
   };
 
   const [isScroll, setIsScroll] = useState(false);
