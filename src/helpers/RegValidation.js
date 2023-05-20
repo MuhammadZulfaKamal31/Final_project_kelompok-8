@@ -11,7 +11,7 @@ export const ValidationSchema = Yup.object({
     .matches(/[0-9]/g, "should more contain at least 1 number")
     .matches(/^\S*$/, "should not contain spaces"),
   agreement: Yup.bool().isTrue("field must be checked"),
-  confirmPassword: Yup.string()
+  confPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Password must match")
     .required("Required"),
 });

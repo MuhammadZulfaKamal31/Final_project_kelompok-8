@@ -11,7 +11,7 @@ import { DataProvider } from "./contextProvider/DataProvider";
 
 import ScrollToTop from './helpers/ScrollToTop'
 import { AuthContext, AuthContextProvider } from './contextProvider/AuthContext';
-import { ReactQueryDevtools } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -35,7 +35,7 @@ root.render(
           <App />
         </AuthContextProvider>
       </DataProvider>
-      {/* <ReactQueryDevtools /> */}
+      <ReactQueryDevtools />
     </QueryClientProvider>
   </React.StrictMode>
 );
