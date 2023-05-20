@@ -20,6 +20,8 @@ const Sidebar = () => {
     } catch (error) {
       console.log(error);
     }
+
+    setSearch("");
   };
 
   const [isScroll, setIsScroll] = useState(false);
@@ -56,7 +58,7 @@ const Sidebar = () => {
           )}
         </button>
         <NavLink to="/">
-          <img className="h-12 lg:h-16 inline" src="../assets/logo.png" alt="" />
+          <img className="h-12 lg:h-16 inline" src={`${theme? "../assets/logo.png" : "../assets/user.png"}`} alt="" />
         </NavLink>
       </div>
       <div

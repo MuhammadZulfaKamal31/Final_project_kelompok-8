@@ -16,12 +16,12 @@ export const Modal = ({ open, onClose }) => {
           <MdOutlineClose className=" w-full h-full" />
         </button>
         <img src={unauthorizedImg} alt="unauthorized-img" className=" w-72 h-52" />
-        <h1 className=" lg:text-3xl text-2xl">
+        <h1 className=" lg:text-3xl text-2xl text-center">
           Unauthorized <span className=" font-semibold text-red-600">401</span>
         </h1>
-        <p className=" lg:text-lg text-sm">
+        <p className=" lg:text-lg text-sm text-center">
           Sorry, but you must be logged in to proceed further. Please{" "}
-          <Link className=" text-red-600 font-medium" to={"/login"}>
+          <Link className=" text-red-600 font-medium hover:underline" to={"/login"}>
             Login
           </Link>
         </p>
