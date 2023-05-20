@@ -31,7 +31,6 @@ const Login = () => {
       setRedirect(true);
       setLogin("");
     } catch (error) {
-      console.log(error);
       setLoading(false);
       setMsg(error.response.data);
     }

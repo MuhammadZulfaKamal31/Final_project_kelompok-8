@@ -2,33 +2,20 @@ import React, { useContext, useRef, useState } from "react";
 import { useGetDetail } from "../hooks/detail-api/useGetDetail";
 import { useParams } from "react-router";
 import { useGetDetailCategory } from "../hooks/detail-api/useGetDetailCategory";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useGetDetailVideos } from "../hooks/detail-api/useGetDetailVideos";
-import ReactPlayer from "react-player/youtube";
-
 import { Navigation, Pagination } from "swiper";
-
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-
-import { DetailHeader } from "../components/detail-components/DetailHeader";
-
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-
 import placeholderPoster from "../assets/placeholder-img.png";
 import placeholderBackdrop from "../assets/placeholder-backdrop.png";
-import { Link } from "react-router-dom";
 import LoadingPage from "./LoadingPage";
 import { FaPlay } from "react-icons/fa";
 import { DataContext } from "../contextProvider/DataProvider";
-
 import CircleRating from "../components/circle-rating/CircleRating";
-
 import SliderCard from "../components/slider-card/SliderCard";
-import { BsFillPlayFill } from "react-icons/bs";
-import { AiOutlineTrademarkCircle } from "react-icons/ai";
 import { IoMdSend, IoMdTrash } from "react-icons/io";
 import { useGetComment } from "../hooks/comment-api/useGetComment";
 import { AuthContext } from "../contextProvider/AuthContext";
@@ -40,13 +27,15 @@ import { useAddFavorite } from "../hooks/favorite-api/usePostFavorite";
 import { useUnFavorite } from "../hooks/favorite-api/useUnFavorite";
 import { useDeleteComment } from "../hooks/comment-api/useDeleteComment";
 import { PulseLoader } from "react-spinners";
+import { PuffLoader } from "react-spinners";
+import { Modal } from "../components/Modal";
 
 const DetailPage = () => {
   const { currentUser } = useContext(AuthContext);
   const [addComment, setAddComment] = useState("");
   const [theme] = useContext(DataContext);
+  const [open, setOpen] = useState(false);
   const { mediaType, mediaId } = useParams();
-  const [isPlaying, setIsPlaying] = useState(null);
   const myRef = useRef(null);
 
   const executeScroll = () => {
@@ -118,17 +107,11 @@ const DetailPage = () => {
   const { data: getSingleFavorite } = useGetSingleFavorite({
     mediaId: mediaId,
     mediaType: mediaType,
+    currentUser: currentUser?.id,
   });
 
-  const { mutate: addFavorite } = useAddFavorite();
+  const { mutate: addFavorite, isLoadingAddFavorite } = useAddFavorite();
 
-
-  const { data: getComment } = useGetComment({
-    mediaType: mediaType,
-    mediaId: mediaId,
-  });
-
-  const { mutate: postComment } = usePostComment();
   const handleAddFavorite = () => {
     addFavorite({
       mediaType: mediaType,
@@ -139,10 +122,10 @@ const DetailPage = () => {
     });
   };
 
-  const { mutate: unFavorite } = useUnFavorite();
+  const { mutate: unFavorite, isLoading: isLoadingUnFavorite } = useUnFavorite();
 
   const handleUnFavorite = () => {
-    unFavorite(mediaId, mediaType);
+    unFavorite({ mediaId: mediaId, mediaType: mediaType });
   };
 
   const { data: getComment } = useGetComment({ mediaType: mediaType, mediaId: mediaId });
@@ -150,7 +133,6 @@ const DetailPage = () => {
   const { mutate: postComment, isLoading: isLoadingAddComment } = usePostComment();
 
   const { mutate: deleteComment, isLoading: isLoadingDeleteComment } = useDeleteComment();
-
 
   const handleAddComment = (e) => {
     setAddComment(e.target.value);
@@ -164,7 +146,6 @@ const DetailPage = () => {
   const handleDeleteCommmet = (e) => {
     deleteComment(e);
   };
-
 
   if (
     loadingDetail ||
@@ -185,42 +166,20 @@ const DetailPage = () => {
     <div className=" w-full h-full">
       <div className=" absolute w-full h-screen">
         <div className=" absolute  w-full h-screen">
+          <div className={` ${theme ? "bg-[#0000004d]" : "bg-[#f5f5f580]"} w-full h-1/3 hidden lg:block`}></div>
           <div
-            className={` ${
-              theme ? "bg-[#0000004d]" : "bg-[#f5f5f580]"
-            } w-full h-1/3 hidden lg:block`}
-          ></div>
-          <div
-            className={` bg-gradient-to-t ${
-              theme ? "from-black" : "from-background_light"
-            } ${
+            className={` bg-gradient-to-t ${theme ? "from-black" : "from-background_light"} ${
               theme ? "to-[#0000004d]" : "to-[#f5f5f580]"
-            } w-full h-1/3 lg:hidden block`}
-          ></div>
+            } w-full h-1/3 lg:hidden block`}></div>
+          <div className={` ${theme ? "bg-black" : " bg-background_light"} w-full h-1/3 lg:hidden block`}></div>
           <div
-            className={` ${
-              theme ? "bg-black" : " bg-background_light"
-            } w-full h-1/3 lg:hidden block`}
-          ></div>
-          <div
-            className={` bg-gradient-to-t ${
-              theme ? "from-black" : "from-background_light"
-            } ${
+            className={` bg-gradient-to-t ${theme ? "from-black" : "from-background_light"} ${
               theme ? "to-[#0000004d]" : "to-[#f5f5f580]"
-            } w-full h-1/3 hidden lg:block`}
-          ></div>
-          <div
-            className={`${
-              theme ? "bg-black" : " bg-background_light"
-            }  w-full h-1/3`}
-          ></div>
+            } w-full h-1/3 hidden lg:block`}></div>
+          <div className={`${theme ? "bg-black" : " bg-background_light"}  w-full h-1/3`}></div>
         </div>
         {detail?.backdrop_path === null ? (
-          <img
-            src={placeholderBackdrop}
-            alt={detail?.title}
-            className=" w-full h-screen object-top object-cover"
-          />
+          <img src={placeholderBackdrop} alt={detail?.title} className=" w-full h-screen object-top object-cover" />
         ) : (
           <img
             src={`https://image.tmdb.org/t/p/original${detail?.backdrop_path}`}
@@ -261,8 +220,7 @@ const DetailPage = () => {
                 return (
                   <span
                     className=" lg:h-9 h-7 flex justify-center items-center lg:px-4 px-2 rounded-full bg-primary_button lg:text-base text-sm font-semibold"
-                    key={i}
-                  >
+                    key={i}>
                     {el.name}
                   </span>
                 );
@@ -279,24 +237,32 @@ const DetailPage = () => {
             {/* Favorite */}
             <div className="flex gap-x-3 items-center">
               {getSingleFavorite !== null && currentUser !== null && (
-                <button onClick={handleUnFavorite} className=" w-7 h-7">
-                  <MdFavorite className=" w-full h-full text-red-600" />
+                <button onClick={handleUnFavorite} className=" w-7 h-7" disabled={isLoadingUnFavorite}>
+                  {isLoadingUnFavorite ? (
+                    <PuffLoader color="#ffff" size={25} />
+                  ) : (
+                    <MdFavorite className=" w-full h-full text-red-600" />
+                  )}
                 </button>
               )}
               {getSingleFavorite === null && currentUser !== null && (
-                <button onClick={handleAddFavorite} className=" w-7 h-7">
-                  <MdFavoriteBorder className=" w-full h-full text-red-600" />
+                <button onClick={handleAddFavorite} className=" lg:w-7 lg:h-7 w-6 h-6" disabled={isLoadingAddFavorite}>
+                  {isLoadingAddFavorite ? (
+                    <PuffLoader color="#ffff" size={25} />
+                  ) : (
+                    <MdFavoriteBorder className=" w-full h-full text-red-600" />
+                  )}
                 </button>
               )}
               {currentUser === null && (
-                <button onClick={handleAddFavorite} className=" w-7 h-7">
+                <button className=" lg:w-7 lg:h-7 w-6 h-6" onClick={() => setOpen(true)}>
                   <MdFavoriteBorder className=" w-full h-full text-red-600" />
                 </button>
               )}
+              <Modal open={open} onClose={() => setOpen(false)} />
               <button
                 className=" text-white lg:w-40 w-[147px] lg:h-[45px] h-[37px] bg-primary_button shadow-xl lg:rounded-lg rounded flex justify-center items-center gap-x-3 hover:bg-secondary_button"
-                onClick={executeScroll}
-              >
+                onClick={executeScroll}>
                 <FaPlay />
                 Watch Now
               </button>
@@ -305,9 +271,7 @@ const DetailPage = () => {
               "Loading.."
             ) : (
               <div>
-                <h1 className="md:text-[26px] text-2xl font-bold mb-5 uppercase">
-                  cast
-                </h1>
+                <h1 className="md:text-[26px] text-2xl font-bold mb-5 uppercase">cast</h1>
                 <div>
                   <Swiper
                     spaceBetween={10}
@@ -331,32 +295,22 @@ const DetailPage = () => {
                         slidesPerView: 5,
                       },
                     }}
-                    className=" h-[210px] cursor-grab"
-                  >
+                    className=" h-[210px] cursor-grab">
                     <div>
                       {detailCredits?.cast &&
                         detailCredits?.cast?.map((cast, i) => {
                           return (
                             //untuk key bagian ini sebaiknya ditaruh di bagianswiper slide karena itu bagian elemen utama
                             // supaya elemen tersebut dapat membedakan setiap slide dalam Swiper ketika melakukan perenderan ulang.
-                            <SwiperSlide
-                              className=" w-full h-full relative"
-                              key={i}
-                            >
+                            <SwiperSlide className=" w-full h-full relative" key={i}>
                               <div className=" absolute z-10 w-full h-full">
                                 <div className=" w-full h-[80%] bg-transparent"></div>
                                 <div className=" w-full h-[20%] bg-black/60 flex justify-center items-center">
-                                  <h1 className=" font-semibold text-white">
-                                    {cast?.name}
-                                  </h1>
+                                  <h1 className=" font-semibold text-white">{cast?.name}</h1>
                                 </div>
                               </div>
                               {cast?.profile_path === null ? (
-                                <img
-                                  src={placeholderPoster}
-                                  alt={cast.name}
-                                  key={i}
-                                />
+                                <img src={placeholderPoster} alt={cast.name} key={i} />
                               ) : (
                                 <LazyLoadImage
                                   src={`https://image.tmdb.org/t/p/original${cast?.profile_path}`}
@@ -386,8 +340,7 @@ const DetailPage = () => {
                 slidesPerView={"auto"}
                 navigation={true}
                 modules={[Navigation, Pagination]}
-                className=" text-white w-full"
-              >
+                className=" text-white w-full">
                 {detailVideos?.results &&
                   detailVideos?.results?.slice(0, 3).map((el) => {
                     return (
@@ -398,9 +351,8 @@ const DetailPage = () => {
                             width="100%"
                             height="100%"
                             src={`https://www.youtube-nocookie.com/embed/${el.key}`}
-                            frameborder="0"
                             allow="autoplay; encrypted-media"
-                            allowfullscreen></iframe>
+                            allowFullScreen></iframe>
                           {/* <ReactPlayer url={`https://www.youtube.com/embed/${el?.key}`} controls /> */}
                         </div>
                       </SwiperSlide>
@@ -409,14 +361,8 @@ const DetailPage = () => {
               </Swiper>
             </div>
             <div className=" w-full">
-              <h1 className=" md:text-[26px] text-2xl font-bold mb-5">
-                BACKDROPS
-              </h1>
-              <Swiper
-                navigation={true}
-                modules={[Navigation, Pagination]}
-                className=" text-white"
-              >
+              <h1 className=" md:text-[26px] text-2xl font-bold mb-5">BACKDROPS</h1>
+              <Swiper navigation={true} modules={[Navigation, Pagination]} className=" text-white">
                 {detailBackdrops?.backdrops &&
                   detailBackdrops?.backdrops.map((el, i) => {
                     return (
@@ -436,9 +382,7 @@ const DetailPage = () => {
               </Swiper>
             </div>
             <div className=" w-full h-full">
-              <h1 className="md:text-[26px] text-2xl font-bold mb-5">
-                POSTERS
-              </h1>
+              <h1 className="md:text-[26px] text-2xl font-bold mb-5">POSTERS</h1>
               <Swiper
                 pagination={{
                   clickable: true,
@@ -457,8 +401,7 @@ const DetailPage = () => {
                     slidesPerView: 5,
                   },
                 }}
-                className="h-full cursor-grab"
-              >
+                className="h-full cursor-grab">
                 {detailPosters?.posters &&
                   detailPosters?.posters.map((el, i) => {
                     return (
@@ -480,12 +423,8 @@ const DetailPage = () => {
             {/* Comment Section */}
             <div className="w-full h-full lg:mb-20 md:mb-16 mb-12">
               <div className="flex mb-5">
-                <h1 className=" md:text-[26px] text-2xl font-bold mr-3">
-                  COMMENT
-                </h1>
-                <h1 className=" md:text-[26px] text-2xl font-bold">
-                  ({getComment?.length})
-                </h1>
+                <h1 className=" md:text-[26px] text-2xl font-bold mr-3">COMMENT</h1>
+                <h1 className=" md:text-[26px] text-2xl font-bold">({getComment?.length})</h1>
               </div>
               {getComment?.map((el, i) => {
                 return (
@@ -574,9 +513,7 @@ const DetailPage = () => {
               ) : null}
             </div>
             <div className=" w-full h-full lg:mb-20 md:mb-16 mb-12">
-              <h1 className=" md:text-[26px] text-2xl font-bold mb-5">
-                SIMILAR MOVIE
-              </h1>
+              <h1 className=" md:text-[26px] text-2xl font-bold mb-5">SIMILAR MOVIE</h1>
               <SliderCard data={detailSimilar} mediaType={`/${mediaType}`} />
             </div>
           </div>
