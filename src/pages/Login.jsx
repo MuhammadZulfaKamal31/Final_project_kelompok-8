@@ -2,9 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { privateRequest } from "../axios/RequestMethod";
 import { AuthContext } from "../contextProvider/AuthContext";
-
 import Validation from "../helpers/LoginValidation";
-
 import ClipLoader from "react-spinners/ClipLoader";
 
 const Login = () => {
@@ -34,6 +32,7 @@ const Login = () => {
       setLogin("");
     } catch (error) {
       console.log(error);
+      setLoading(false);
       setMsg(error.response.data);
     }
   };
@@ -63,7 +62,6 @@ const Login = () => {
               onChange={handleChange}
               autoComplete="off"
             />
-            {errors.email && <span className="errors">{errors.email}</span>}
             <label htmlFor="password" className="block text-base mb-2 mt-3  text-white">
               {" "}
               Password
