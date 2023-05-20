@@ -1,18 +1,18 @@
 import React, { useContext, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { privateRequest } from "../axios/RequestMethod";
 import { AuthContext } from "../contextProvider/AuthContext";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Login = () => {
-  const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const { setCurrentUser } = useContext(AuthContext);
   const [redirect, setRedirect] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [login, setLogin] = useState({
     username: "",
     password: "",
   });
-  const [msg, setMsg] = useState("");
-
-  const navigate = useNavigate();
+  const [msg, setMsg] = useState(null);
 
   const handleChange = (e) => {
     setLogin((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -20,14 +20,16 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const { data } = await privateRequest.post("/login", login);
       setCurrentUser(data);
+      setLoading(false);
       setRedirect(true);
       setLogin("");
     } catch (error) {
       console.log(error);
-      setMsg(error);
+      setMsg(error.response.data);
     }
   };
 
@@ -39,12 +41,12 @@ const Login = () => {
       <div className=" bg-zinc-800 w-96 p-6 shadow-lg rounded-md">
         <h1 className="text-3xl block font-semibold text-center"> Login </h1>
         <hr className="mt-3 text-white"></hr>
+        <div className=" w-full flex items-center justify-center text-red-600">
+          {msg !== null && <span>*{msg}</span>}
+        </div>
         <form className=" w-full" onSubmit={handleSubmit}>
-          <div className="mt-3">
-            <label
-              htmlFor="username"
-              className="block text-base mb-2  text-white"
-            >
+          <div className={`${msg === null && "mt-3"} `}>
+            <label htmlFor="username" className="block text-base mb-2  text-white">
               {" "}
               Username
             </label>
@@ -56,10 +58,7 @@ const Login = () => {
               onChange={handleChange}
               autoComplete="off"
             />
-            <label
-              htmlFor="password"
-              className="block text-base mb-2 mt-3  text-white"
-            >
+            <label htmlFor="password" className="block text-base mb-2 mt-3  text-white">
               {" "}
               Password
             </label>
@@ -87,19 +86,14 @@ const Login = () => {
             <button
               type="submit"
               className="text-white md:text-xl sm:text-lg max-[639px]:text-lg"
-              onClick={handleSubmit}
-            >
-              Login
+              onClick={handleSubmit}>
+              {loading ? <ClipLoader color="#ffff" size={24} /> : "Login"}
             </button>
           </div>
         </form>
 
         <div className="flex mt-5 justify-center items-center py-2 px-2 bg-blue-400 rounded-2xl cursor-pointer">
-          <Link
-            to="/register"
-            type="button"
-            className="text-white md:text-xl sm:text-lg max-[639px]:text-lg"
-          >
+          <Link to="/register" type="button" className="text-white md:text-xl sm:text-lg max-[639px]:text-lg">
             REGISTER
           </Link>
         </div>
