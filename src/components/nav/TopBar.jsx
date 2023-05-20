@@ -33,7 +33,6 @@ const Topbar = () => {
   };
 
   const navigate = useNavigate();
-  console.log(search);
   const handleSearch = (e) => {
     const value = e.target.value;
     if (value) {

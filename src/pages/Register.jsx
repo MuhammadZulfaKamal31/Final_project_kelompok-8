@@ -35,7 +35,6 @@ const Register = () => {
       onSubmit(values, setSubmitting(false));
     },
   });
-  console.log(values);
 
   return (
     <div className="flex justify-center sm:mt-0 max-[639]:mt-5 items-center h-screen bg-register">
