@@ -7,6 +7,8 @@ import { DataContext } from "../../contextProvider/DataProvider";
 import { Link, useNavigate, NavLink } from "react-router-dom";
 import { privateRequest } from "../../axios/RequestMethod";
 import { AuthContext } from "../../contextProvider/AuthContext";
+import logoLight from "../../assets/logo.png"
+import logoDark from "../../assets/logoDark.png"
 
 const Sidebar = () => {
   const [theme, setTheme, search, setSearch] = useContext(DataContext);
@@ -58,7 +60,7 @@ const Sidebar = () => {
           )}
         </button>
         <NavLink to="/">
-          <img className="h-12 lg:h-16 inline" src={`${theme? "../assets/logo.png" : "../assets/user.png"}`} alt="" />
+          <img className="h-12 lg:h-16 inline" src={`${theme? logoLight : logoDark}`} alt="" />
         </NavLink>
       </div>
       <div

@@ -73,7 +73,6 @@ const Login = () => {
               onChange={handleChange}
               autoComplete="off"
             />
-            {errors.password && <span className="errors">{errors.password}</span>}
           </div>
           <div className="mt-3 mb-2 flex justify-between items-center">
             <div>
