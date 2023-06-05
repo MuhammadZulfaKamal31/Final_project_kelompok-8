@@ -10,6 +10,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { DataProvider } from "./contextProvider/DataProvider";
 
 import ScrollToTop from './helpers/ScrollToTop'
+import { AuthContext, AuthContextProvider } from './contextProvider/AuthContext';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,12 +29,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <ScrollToTop />
-        <DataProvider>
+
+      <DataProvider>
+        <AuthContextProvider>
           <App />
-        </DataProvider>
-      </BrowserRouter>
+        </AuthContextProvider>
+      </DataProvider>
+      {/* <ReactQueryDevtools /> */}
     </QueryClientProvider>
   </React.StrictMode>
 );

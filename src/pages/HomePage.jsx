@@ -75,28 +75,64 @@ const HomePage = () => {
           isFetching={isFetchingPopularMovie}
         />
       </div>
-      <div className=" w-full h-full lg:px-16 md:px-12 sm:pt-12 lg:pt-16 sm:px-10 px-4 pb-10 pt-4 ">
+      <div className=" w-full h-full lg:px-16 md:px-12 sm:pt-12 lg:pt-16 sm:px-10 px-4 pb-10 pt-4">
         <div>
-          <h1 className={`my-10  mb-8 text-2xl font-bold ${theme ? "text-white" : "text-black"}`}>
-            <span className={`  underline decoration-red-600 decoration-4 underline-offset-8`}>POPULAR</span> MOVIES
+          <h1
+            className={`my-10  mb-8 text-2xl font-bold ${
+              theme ? "text-white" : "text-black"
+            }`}
+          >
+            <span
+              className={`  underline decoration-red-600 decoration-4 underline-offset-8`}
+            >
+              POPULAR
+            </span>{" "}
+            MOVIES
           </h1>
         </div>
         <SliderCard data={dataPopularMovie} mediaType={"movie"} />
         <div>
-          <h1 className={`my-10  mb-8 text-2xl font-bold ${theme ? "text-white" : "text-black"}`}>
-            <span className={`  underline decoration-red-600 decoration-4 underline-offset-8`}>TOP RATED</span> MOVIES
+          <h1
+            className={`my-10  mb-8 text-2xl font-bold ${
+              theme ? "text-white" : "text-black"
+            }`}
+          >
+            <span
+              className={`  underline decoration-red-600 decoration-4 underline-offset-8`}
+            >
+              TOP RATED
+            </span>{" "}
+            MOVIES
           </h1>
         </div>
         <SliderCard data={dataTopRated} mediaType={"movie"} />
         <div>
-          <h1 className={`my-10  mb-8 text-2xl font-bold ${theme ? "text-white" : "text-black"}`}>
-            <span className={`  underline decoration-red-600 decoration-4 underline-offset-8`}>POPULAR</span> SERIES
+          <h1
+            className={`my-10  mb-8 text-2xl font-bold ${
+              theme ? "text-white" : "text-black"
+            }`}
+          >
+            <span
+              className={`  underline decoration-red-600 decoration-4 underline-offset-8`}
+            >
+              POPULAR
+            </span>{" "}
+            SERIES
           </h1>
         </div>
         <SliderCard data={dataTvPopular} mediaType={"tv"} />
         <div>
-          <h1 className={`my-10  mb-8 text-2xl font-bold ${theme ? "text-white" : "text-black"}`}>
-            <span className={`  underline decoration-red-600 decoration-4 underline-offset-8`}>TOP RATED</span> SERIES
+          <h1
+            className={`my-10  mb-8 text-2xl font-bold ${
+              theme ? "text-white" : "text-black"
+            }`}
+          >
+            <span
+              className={`  underline decoration-red-600 decoration-4 underline-offset-8`}
+            >
+              TOP RATED
+            </span>{" "}
+            SERIES
           </h1>
         </div>
         <SliderCard data={dataTvTopRated} mediaType={"tv"} />

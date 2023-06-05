@@ -2,37 +2,40 @@ import React, { useContext, useRef, useState } from "react";
 import { useGetDetail } from "../hooks/detail-api/useGetDetail";
 import { useParams } from "react-router";
 import { useGetDetailCategory } from "../hooks/detail-api/useGetDetailCategory";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useGetDetailVideos } from "../hooks/detail-api/useGetDetailVideos";
-import ReactPlayer from "react-player/youtube";
-
 import { Navigation, Pagination } from "swiper";
-
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-
-import { DetailHeader } from "../components/detail-components/DetailHeader";
-
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-
 import placeholderPoster from "../assets/placeholder-img.png";
 import placeholderBackdrop from "../assets/placeholder-backdrop.png";
-import { Link } from "react-router-dom";
 import LoadingPage from "./LoadingPage";
 import { FaPlay } from "react-icons/fa";
 import { DataContext } from "../contextProvider/DataProvider";
-
 import CircleRating from "../components/circle-rating/CircleRating";
-
 import SliderCard from "../components/slider-card/SliderCard";
-import { BsFillPlayFill } from "react-icons/bs";
+import { IoMdSend, IoMdTrash } from "react-icons/io";
+import { useGetComment } from "../hooks/comment-api/useGetComment";
+import { AuthContext } from "../contextProvider/AuthContext";
+import { usePostComment } from "../hooks/comment-api/usePostComment";
+import Moment from "react-moment";
+import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
+import { useGetSingleFavorite } from "../hooks/favorite-api/useGetSingleFavorite";
+import { useAddFavorite } from "../hooks/favorite-api/usePostFavorite";
+import { useUnFavorite } from "../hooks/favorite-api/useUnFavorite";
+import { useDeleteComment } from "../hooks/comment-api/useDeleteComment";
+import { PulseLoader } from "react-spinners";
+import { PuffLoader } from "react-spinners";
+import { Modal } from "../components/Modal";
 
 const DetailPage = () => {
+  const { currentUser } = useContext(AuthContext);
+  const [addComment, setAddComment] = useState("");
   const [theme] = useContext(DataContext);
+  const [open, setOpen] = useState(false);
   const { mediaType, mediaId } = useParams();
-  const [isPlaying, setIsPlaying] = useState(null);
   const myRef = useRef(null);
 
   const executeScroll = () => {
@@ -57,7 +60,11 @@ const DetailPage = () => {
     isLoading: loadingDetailCredits,
     isError: isErrorDetailCredits,
     isFetching: isFetchingDetailCredits,
-  } = useGetDetailCategory({ mediaId: mediaId, mediaType: mediaType, detailCategory: detailCategories.credits });
+  } = useGetDetailCategory({
+    mediaId: mediaId,
+    mediaType: mediaType,
+    detailCategory: detailCategories.credits,
+  });
 
   const { data: detailVideos } = useGetDetailVideos({
     mediaId: mediaId,
@@ -70,21 +77,75 @@ const DetailPage = () => {
     isLoading: loadingDetailBackdrops,
     isError: isErrorDetailBackdrops,
     isFetching: isFetchingDetailBackdrops,
-  } = useGetDetailCategory({ mediaId: mediaId, mediaType: mediaType, detailCategory: detailCategories.images });
+  } = useGetDetailCategory({
+    mediaId: mediaId,
+    mediaType: mediaType,
+    detailCategory: detailCategories.images,
+  });
 
   const {
     data: detailPosters,
     isLoading: loadingDetailPosters,
     isError: isErrorDetailPosters,
     isFetching: isFetchingDetailPosters,
-  } = useGetDetailCategory({ mediaId: mediaId, mediaType: mediaType, detailCategory: detailCategories.images });
+  } = useGetDetailCategory({
+    mediaId: mediaId,
+    mediaType: mediaType,
+    detailCategory: detailCategories.images,
+  });
 
   const {
     data: detailSimilar,
     isLoading: loadingDetailSimilar,
     isError: isErrorDetailSimilar,
     isFetching: isFetchingDetailSimilar,
-  } = useGetDetailCategory({ mediaId: mediaId, mediaType: mediaType, detailCategory: detailCategories.similar });
+  } = useGetDetailCategory({
+    mediaId: mediaId,
+    mediaType: mediaType,
+    detailCategory: detailCategories.similar,
+  });
+  const { data: getSingleFavorite } = useGetSingleFavorite({
+    mediaId: mediaId,
+    mediaType: mediaType,
+    currentUser: currentUser?.id,
+  });
+
+  const { mutate: addFavorite, isLoadingAddFavorite } = useAddFavorite();
+
+  const handleAddFavorite = () => {
+    addFavorite({
+      mediaType: mediaType,
+      mediaId: mediaId,
+      posterPath: detail?.poster_path,
+      title: detail?.title || detail?.name,
+      vote: detail?.vote_average,
+    });
+  };
+
+  const { mutate: unFavorite, isLoading: isLoadingUnFavorite } = useUnFavorite();
+
+  const handleUnFavorite = () => {
+    unFavorite({ mediaId: mediaId, mediaType: mediaType });
+  };
+
+  const { data: getComment } = useGetComment({ mediaType: mediaType, mediaId: mediaId });
+
+  const { mutate: postComment, isLoading: isLoadingAddComment } = usePostComment();
+
+  const { mutate: deleteComment, isLoading: isLoadingDeleteComment } = useDeleteComment();
+
+  const handleAddComment = (e) => {
+    setAddComment(e.target.value);
+  };
+
+  const handleSubmitComment = () => {
+    postComment({ text: addComment, media_id: mediaId, media_type: mediaType });
+    setAddComment("");
+  };
+
+  const handleDeleteCommmet = (e) => {
+    deleteComment(e);
+  };
 
   if (
     loadingDetail ||
@@ -173,7 +234,32 @@ const DetailPage = () => {
               </div>
             </div>
             <p className=" drop-shadow-lg">{detail?.overview}</p>
-            <div>
+            {/* Favorite */}
+            <div className="flex gap-x-3 items-center">
+              {getSingleFavorite !== null && currentUser !== null && (
+                <button onClick={handleUnFavorite} className=" w-7 h-7" disabled={isLoadingUnFavorite}>
+                  {isLoadingUnFavorite ? (
+                    <PuffLoader color="#ffff" size={25} />
+                  ) : (
+                    <MdFavorite className=" w-full h-full text-red-600" />
+                  )}
+                </button>
+              )}
+              {getSingleFavorite === null && currentUser !== null && (
+                <button onClick={handleAddFavorite} className=" lg:w-7 lg:h-7 w-6 h-6" disabled={isLoadingAddFavorite}>
+                  {isLoadingAddFavorite ? (
+                    <PuffLoader color="#ffff" size={25} />
+                  ) : (
+                    <MdFavoriteBorder className=" w-full h-full text-red-600" />
+                  )}
+                </button>
+              )}
+              {currentUser === null && (
+                <button className=" lg:w-7 lg:h-7 w-6 h-6" onClick={() => setOpen(true)}>
+                  <MdFavoriteBorder className=" w-full h-full text-red-600" />
+                </button>
+              )}
+              <Modal open={open} onClose={() => setOpen(false)} />
               <button
                 className=" text-white lg:w-40 w-[147px] lg:h-[45px] h-[37px] bg-primary_button shadow-xl lg:rounded-lg rounded flex justify-center items-center gap-x-3 hover:bg-secondary_button"
                 onClick={executeScroll}>
@@ -214,7 +300,9 @@ const DetailPage = () => {
                       {detailCredits?.cast &&
                         detailCredits?.cast?.map((cast, i) => {
                           return (
-                            <SwiperSlide className=" w-full h-full relative">
+                            //untuk key bagian ini sebaiknya ditaruh di bagianswiper slide karena itu bagian elemen utama
+                            // supaya elemen tersebut dapat membedakan setiap slide dalam Swiper ketika melakukan perenderan ulang.
+                            <SwiperSlide className=" w-full h-full relative" key={i}>
                               <div className=" absolute z-10 w-full h-full">
                                 <div className=" w-full h-[80%] bg-transparent"></div>
                                 <div className=" w-full h-[20%] bg-black/60 flex justify-center items-center">
@@ -227,7 +315,7 @@ const DetailPage = () => {
                                 <LazyLoadImage
                                   src={`https://image.tmdb.org/t/p/original${cast?.profile_path}`}
                                   alt={cast.name}
-                                  key={i}
+                                  // key={i}
                                   effect="blur"
                                   placeholderSrc={placeholderPoster}
                                 />
@@ -258,15 +346,14 @@ const DetailPage = () => {
                     return (
                       <SwiperSlide className=" w-full" key={el?.id}>
                         <div className=" aspect-video">
-                          {/* <iframe
-                            src={`https://www.youtube.com/embed/${el?.key}?showinfo=0&enablejsapi=1&origin=http://localhost:3000`}
-                            title={el?.id}
-                            frameborder="0"
-                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen
+                          <iframe
+                            title="video"
                             width="100%"
-                            height="90%"></iframe> */}
-                          <ReactPlayer url={`https://www.youtube.com/embed/${el?.key}`} width="100%" height="100%" />
+                            height="100%"
+                            src={`https://www.youtube-nocookie.com/embed/${el.key}`}
+                            allow="autoplay; encrypted-media"
+                            allowFullScreen></iframe>
+                          {/* <ReactPlayer url={`https://www.youtube.com/embed/${el?.key}`} controls /> */}
                         </div>
                       </SwiperSlide>
                     );
@@ -279,12 +366,13 @@ const DetailPage = () => {
                 {detailBackdrops?.backdrops &&
                   detailBackdrops?.backdrops.map((el, i) => {
                     return (
-                      <SwiperSlide>
+                      //untuk key bagian ini sebaiknya ditaruh di bagianswiper slide karena itu bagian elemen utama
+                      // supaya elemen tersebut dapat membedakan setiap slide dalam Swiper ketika melakukan perenderan ulang.
+                      <SwiperSlide key={i}>
                         <LazyLoadImage
                           effect="blur"
                           src={`https://image.tmdb.org/t/p/original${el.file_path}`}
                           alt="backdrops"
-                          key={i}
                           className=" h-auto"
                           placeholderSrc={placeholderBackdrop}
                         />
@@ -317,6 +405,8 @@ const DetailPage = () => {
                 {detailPosters?.posters &&
                   detailPosters?.posters.map((el, i) => {
                     return (
+                      //untuk key bagian ini sebaiknya ditaruh di bagian swiper slide karena itu bagian elemen utama
+                      // supaya elemen tersebut dapat membedakan setiap slide dalam Swiper ketika melakukan perenderan ulang.
                       <SwiperSlide className=" !h-auto" key={i}>
                         <LazyLoadImage
                           effect="blur"
@@ -329,6 +419,98 @@ const DetailPage = () => {
                     );
                   })}
               </Swiper>
+            </div>
+            {/* Comment Section */}
+            <div className="w-full h-full lg:mb-20 md:mb-16 mb-12">
+              <div className="flex mb-5">
+                <h1 className=" md:text-[26px] text-2xl font-bold mr-3">COMMENT</h1>
+                <h1 className=" md:text-[26px] text-2xl font-bold">({getComment?.length})</h1>
+              </div>
+              {getComment?.map((el, i) => {
+                return (
+                  <div
+                    className={`flex ${!theme ? " hover:bg-white/80" : "hover:bg-[rgb(19,19,19)]"}  rounded-md p-3`}
+                    key={i}>
+                    <div className="mr-3">
+                      <div className="w-10 h-10 overflow-hidden rounded-full">
+                        <img
+                          src={`/assets/${el?.user.avatar}`}
+                          alt="userImage"
+                          className="w-full h-full text-red-500"
+                        />
+                      </div>
+                    </div>
+                    <div className=" flex-grow flex md:flex-row justify-between md:items-center flex-col">
+                      <div>
+                        <h2 className="text-2xl font-semibold mb-2">{el?.user.username}</h2>
+                        <Moment format="DD-MM-YYYY" className="mb-3 text-sm">
+                          {el?.createdAt}
+                        </Moment>
+                        <h2 className="mb-2 lg:text-lg lg:font-semibold font-medium text-base">{el?.text}</h2>
+                      </div>
+                      {currentUser?.id === el?.user.id ? (
+                        <div>
+                          <button
+                            className={` ${
+                              isLoadingDeleteComment && " bg-red-500"
+                            } h-9 w-24 md:w-28 md:h-10  flex gap-x-1 bg-red-600 items-center justify-center rounded hover:bg-red-700 ease-in-out transition-all duration-200 text-white`}
+                            onClick={() => handleDeleteCommmet(el?.id)}
+                            disabled={isLoadingDeleteComment}>
+                            {isLoadingDeleteComment ? (
+                              <PulseLoader color="#ffff" size={6} />
+                            ) : (
+                              <>
+                                <IoMdTrash className=" md:w-5 md:h-5 w-4 h-4 " />
+                                <span className=" font-medium md:text-lg text-md">Remove</span>{" "}
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                );
+              })}
+              <hr className="border-[rgb(19,19,19)] mb-7" />
+              {currentUser !== null ? (
+                <div className="flex">
+                  <div>
+                    <div className="w-10 h-10 overflow-hidden rounded-full mr-3">
+                      <img
+                        src={`/assets/${currentUser.avatar}`}
+                        alt="userImage"
+                        className="w-full h-full text-red-500"
+                      />
+                    </div>
+                  </div>
+                  <div className="w-full">
+                    <h2 className="text-2xl font-semibold mb-5">{currentUser?.username}</h2>
+                    <textarea
+                      value={addComment}
+                      onChange={handleAddComment}
+                      rows="5"
+                      className={`${!theme ? "bg bg-transparent hover:border-black" : "hover:border-white"}
+                       w-full mb-3 bg-black border rounded p-2 border-[rgb(19,19,19)] `}
+                      placeholder="Fill your comment . . ."
+                    />
+                    <button
+                      onClick={handleSubmitComment}
+                      disabled={isLoadingAddComment}
+                      className={` ${
+                        isLoadingAddComment && "bg-red-600"
+                      } text-white flex text-center items-center gap-x-2 bg-primary_button md:w-28 md:h-10 w-[70px] h-8 justify-center rounded font-semibold hover:bg-red-700 ease-out transition-all duration-300`}>
+                      {isLoadingAddComment ? (
+                        <PulseLoader color="#ffff" size={6} />
+                      ) : (
+                        <>
+                          <span className=" font-medium md:text-lg text-md">Post</span>{" "}
+                          <IoMdSend className=" md:w-5 md:h-5 w-4 h-4 " />
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              ) : null}
             </div>
             <div className=" w-full h-full lg:mb-20 md:mb-16 mb-12">
               <h1 className=" md:text-[26px] text-2xl font-bold mb-5">SIMILAR MOVIE</h1>

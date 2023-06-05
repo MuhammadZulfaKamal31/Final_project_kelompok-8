@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 import { tmdbConfigs } from "../../configs/tmdb-configs";
-
 const { apiKey, baseURL } = tmdbConfigs
 
 const getDetailCategory = async ({ mediaType, mediaId, detailCategory }) => {

@@ -40,7 +40,9 @@ const Backdrop = ({ genre, data, isLoading, isError, isFetching, error, mediaTyp
         className=" w-full md:h-screen h-full absolute">
         {data?.results &&
           data?.results.map((el, i) => {
-            const getGenres = filterGenreName(genre?.genres, el.genre_ids);
+            //karena errornya adalah key harus unik, karena genre_ids itu isinya array dan menerima parameter id
+            // maka lebih cocok i sebegai objeknya karena melakukan looping secara berurutan
+            const getGenres = filterGenreName(genre?.genres, i.genre_ids);
             return (
               <SwiperSlide className=" w-full md:h-screen" key={i}>
                 <div
